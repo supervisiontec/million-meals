@@ -1,0 +1,9 @@
+/MillionMeals/target/
+/MillionMeals/node_modules/
+/MillionMeals/bower_components/
+/MillionMeals/src/main/resources/static/
+/MillionMeals/debug.log
+/MillionMeals/src/main/resources/META-INF/persistence.xml
+/MillionMeals/src/site/index.html
+/MillionMeals/upload-image
+/MillionMeals/.idea
