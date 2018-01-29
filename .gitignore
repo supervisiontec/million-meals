@@ -6,6 +6,13 @@
 /MillionMeals/src/main/resources/META-INF/persistence.xml
 /MillionMeals/upload-image
 /MillionMeals/.idea
-/MillionMeals - Copy/bower_components/
-/MillionMealsAdmin/bower_components/
+
+
 /MillionMealsAdmin/target/
+/MillionMealsAdmin/node_modules/
+/MillionMealsAdmin/bower_components/
+/MillionMealsAdmin/src/main/resources/static/
+/MillionMealsAdmin/debug.log
+/MillionMealsAdmin/src/main/resources/META-INF/persistence.xml
+/MillionMealsAdmin/upload-image
+/MillionMealsAdmin/.idea
