@@ -1,0 +1,110 @@
+@import "mixins/variables.scss";
+
+.login{
+    .login-window {
+        position: absolute;
+        display: block;
+        top: 0;
+        left: 0;
+
+        background-color: $primary-color;
+
+        width: 100%;
+        height: 100vh;
+
+        .login-form{
+            display: block;
+            position: relative;
+
+            width: 450px;
+
+            margin: auto;
+            margin-top: 100px;
+            /*            transform: translate(-50%, -50%);
+                        left:50%;
+                        top:50%;*/
+
+            border-radius: 3px;
+
+            background-color: $bg-light-color;
+
+            /*box-shadow: 0 0 150px #000;*/
+
+            .login-header{
+                display: block;
+                width: 100%;
+                background-clip: border-box;
+                text-align: center;
+
+                label{
+                    font-size: 2em;
+                    font-weight: 300;
+                    padding: 20px;
+                }
+            }
+
+            .login-input{
+                padding: 5px 25px 5px 25px;
+
+                .input-group{
+                    height: 44px;
+                    border-radius:3px;
+
+                    .input-group-addon{
+                        background-color: $bg-dark-color;
+                        border-color: $bg-hi-dark-color-border;
+                        color: $bg-hi-dark-color-border;
+                    }
+                }
+
+                .form-control{
+                    height: 44px;
+                    border-color: $bg-hi-dark-color-border;
+                }
+            }
+
+            .input-group.focus{
+                .form-control, .input-group-addon{
+                    border-color: $primary-color;
+                }
+
+                box-shadow: 0px 0px 3px 0px $primary-color;
+                -webkit-box-shadow: 0px 0px 3px 0px $primary-color;
+                -moz-box-shadow: 0px 0px 3px 0px $primary-color;
+
+                background-clip: border-box;
+            }
+
+            .login-footer{
+                display: block;
+                padding: 25px 25px 25px 25px;
+
+                border-bottom-left-radius: 3px;
+                border-bottom-left-radius: 3px;
+            }
+        }
+
+        .login-form.login-failed{
+            animation: ease 1s wobble;
+
+            label{
+                color: $danger-color;
+            }
+
+            .input-group{
+                .form-control, .input-group-addon{
+                    border-color: $danger-color;
+                }
+
+                box-shadow: 0px 0px 3px 0px $danger-color;
+                -webkit-box-shadow: 0px 0px 3px 0px $danger-color;
+                -moz-box-shadow: 0px 0px 3px 0px $danger-color;
+            }
+
+            .btn{
+                background-color: $danger-color;
+                border-color: $danger-color-border;
+            }
+        }
+    }
+}
