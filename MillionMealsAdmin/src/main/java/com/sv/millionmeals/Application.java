@@ -1,12 +1,12 @@
-package com.millionmeals;
+package com.sv.millionmeals;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MillionMealsApplication {
+public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MillionMealsApplication.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 }

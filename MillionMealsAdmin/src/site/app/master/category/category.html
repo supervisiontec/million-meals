@@ -1,0 +1,72 @@
+<div class="index-content-header">
+</div>
+<div class="index-content-body ">
+    <div class="col-xs-4 background-dark">
+        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 92px);">
+            <div class="col-xs-12" style="flex: 0 0 auto; height: 95px; padding-right: 22px;">
+                <table class="table-rounded control-table">
+                    <col style="width: 35%"/>
+                    <col style="width: 65%"/>
+                    <tbody>
+
+                        <tr>
+                            <td><label>Name :</label></td>
+                            <td><input class="form-control" id="name" ng-model="model.category.name" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"> </td>
+                        </tr>
+                        <tr>
+                            <td><label>Description :</label></td>
+                            <td><input class="form-control" ng-model="model.category.description" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"> </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-8 background-light">
+        <div class="row" style="display: flex; flex-flow: column;">
+            <div class="col-xs-12">
+                <div class="row col-xs-5">
+                    <input type="text" class="search-input" ng-model="model.search.name" placeholder="search">
+                </div>
+                <table class="table-rounded">
+                    <col style="width: 15%">
+                    <col style="width: 20%">
+                    <col style="width: 20%">
+                    <col style="width: 15%">
+                    <thead class="background-dark">
+                        <tr>
+                            <th> <label>#</label> </th>
+                            <th> <label>Name</label></th>
+                            <th> <label>Desc</label></th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div class="smart-scroll-y" style="height: calc(100vh - 275px);">
+                    <table class="table-rounded">
+                        <col style="width: 15%">
+                        <col style="width: 20%">
+                        <col style="width: 20%">
+                        <col style="width: 15%">
+                        <tbody>
+                            <tr ng-repeat="category in model.categoryList| filter:model.search.name | orderBy:'indexNo'">
+                                <td><label class="label label-default">{{category.indexNo|fixedLength:5}}</label></td>
+                                <td>{{category.name}}</td>
+                                <td>{{category.description}}</td>
+                                <td class="text-right" style="padding-left: 5px;">
+                                    <a class="btn btn-primary" ng-click="ui.edit(category, $index)"><span class="glyphicon glyphicon-edit"></span></a>
+                                    <a class="btn btn-danger" ng-click="ui.delete(category.indexNo, $index)"><span class="glyphicon glyphicon-trash"></span></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="fab-container">
+    <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'IDEAL' || ui.mode === 'SELECTED'" ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
+    <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'NEW' || ui.mode === 'EDIT'" ng-click="ui.save();"><i class="glyphicon glyphicon-ok"></i></a>
+</div>
