@@ -8,5 +8,6 @@ public class MillionMealsApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MillionMealsApplication.class, args);
+//		System.out.println("start project");
 	}
 }

@@ -2,6 +2,7 @@
 
 .smart-scroll-x{
     overflow-x: scroll;
+    overflow-y:hidden;
 }
 
 .smart-scroll-y{
@@ -10,9 +11,11 @@
 }
 
 .smart-scroll-x::-webkit-scrollbar, .smart-scroll-y::-webkit-scrollbar {
-    width: 5px;
+    width: 8px;
 }
-
+.smart-scroll-x::-webkit-scrollbar {
+    height: 6px;
+}
 .smart-scroll-x::-webkit-scrollbar-track, .smart-scroll-y::-webkit-scrollbar-track {
     display: none;
 }
