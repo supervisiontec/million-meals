@@ -19,6 +19,7 @@ public class MCustomer {
 
     @Id
     @Column(name = "index_no")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer getIndexNo() {
         return indexNo;
     }

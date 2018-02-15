@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Created by my on 2018-02-02.
  */
 public interface CustomerRepository extends JpaRepository<MCustomer,Integer>{
+
+    public MCustomer findByMobile(String mobile);
 }

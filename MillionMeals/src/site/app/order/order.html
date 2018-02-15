@@ -4,25 +4,33 @@
 <div class="index-content-body">
     <div style="height: 55px;padding-top: 10px;background-color: #494966;">
         <div class="col-xs-2">
-            <button type="button" class="btn btn-success btn-block"><span class="glyphicon glyphicon-road"></span> WALK
+            <button ng-click="ui.selectType('walk_in')" ng-class="{'clicked': selectedButton== 'walk_in'  }"
+                    type="button" class="btn btn-block"><span class="glyphicon glyphicon-road"></span> WALK
                 IN
             </button>
         </div>
         <div class="col-xs-2">
-            <button type="button" class="btn btn-success btn-block"><span class="glyphicon glyphicon-earphone"></span>
+            <button ng-click="ui.selectType('on_call')" ng-class="{'clicked': selectedButton== 'on_call'  }"
+                    type="button" class="btn btn-block"><span class="glyphicon glyphicon-earphone"></span>
                 ON CALL
             </button>
         </div>
 
 
         <div class="col-xs-2 pull-right">
-            <button type="button" class="btn btn-warning btn-block">DELIVERY</button>
+            <button ng-click="ui.selectType2('delivery')" ng-class="{'clicked': selectedButton2 == 'delivery'}"
+                    type="button" class="btn  btn-block">DELIVERY
+            </button>
         </div>
         <div class="col-xs-2 pull-right">
-            <button type="button" class="btn btn-warning btn-block" ng-click="ui.selectDineIn()">DINE IN</button>
+            <button ng-class="{'clicked': selectedButton2 == 'dine_in'}" type="button" class="btn  btn-block"
+                    ng-click="ui.selectDineIn('dine_in')">DINE IN
+            </button>
         </div>
         <div class="col-xs-2 pull-right">
-            <button type="button" class="btn btn-warning btn-block" ng-click="ui.selectTakeAway()">TAKE AWAY</button>
+            <button ng-class="{'clicked': selectedButton2 == 'take_away'}" type="button" class="btn  btn-block"
+                    ng-click="ui.selectTakeAway('take_away')">TAKE AWAY
+            </button>
         </div>
 
 
@@ -451,12 +459,12 @@
     <div class="col-xs-2 background-dark" style="height: calc(100vh - {{style.MainItemHeight}});">
         <table class="table-rounded table-hover" style="margin-top: 7px">
             <tbody>
-            <tr style="line-height: 60px;" ng-repeat="mainCategory in mainCategoryList"
+            <tr style="line-height: 100px;" ng-repeat="mainCategory in mainCategoryList"
                 ng-click="ui.selectMainCategory(mainCategory.indexNo)"
                 ng-class="ui.selectedMainCategory === mainCategory.indexNo ? 'selected':''">
-                <td style="font-size: 25px;text-align: center"><span ng-show="mainCategory.indexNo === 1"
-                                                                     class="glyphicon glyphicon-cutlery"></span><span
-                        ng-show="mainCategory.indexNo === 2" class="glyphicon glyphicon-glass"></span>
+                <td style="font-size: 25px;text-align: center">
+                    <span ng-show="mainCategory.indexNo === 1" class="glyphicon glyphicon-cutlery"></span>
+                    <span ng-show="mainCategory.indexNo === 2" class="glyphicon glyphicon-glass"></span>
                     {{mainCategory.name}}
                 </td>
             </tr>
@@ -466,51 +474,54 @@
     </div>
 
     <div class="col-xs-4">
-        <div class="row" style="padding: 6px;background-color: #a9d0e6;">
-            <input type="text" class="form-control" placeholder="search..">
+        <div class="row" style="padding: 6px;background-color: #a7a7a7;">
+            <input type="text" class="form-control" placeholder="search.." ng-model="search">
         </div>
-        <div class="row smart-scroll-y" style="height: calc(100vh - {{style.MenuItemHeight}});margin-left: 23px">
-            <div class="col-sm-5" ng-repeat="subCategory in subCategoryList"
-                 style="background-color: #4f9fcb7d;padding: 10px;margin: 5px;height: 100px"
+        <div class="row smart-scroll-y" style="height: calc(100vh - {{style.MenuItemHeight}});">
+            <div class="col-sm-6" ng-repeat="subCategory in subCategoryList"
                  ng-click="ui.selectSubCategory(subCategory.mSubCategory.indexNo)"
                  ng-show="ui.menumode ==='subcategory'">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">{{subCategory.mSubCategory.name}}</h5>
-                        <p class="card-text">With supporting text</p>
-                        <!--<a href="#" class="btn btn-primary">Go somewhere</a>-->
-                    </div>
-                </div>
+                <button class="btn btn-info btn-block" style="margin: 5px;height: 100px;padding-bottom: 18px">
+                    <h3>{{subCategory.mSubCategory.name}}</h3>
+                </button>
             </div>
 
-            <div class="col-sm-5" ng-repeat="item in itemList"
-                 style="background-color: #4f9fcb7d;padding: 10px;margin: 5px;height: 100px"
+            <div class="col-sm-6" ng-repeat="item in itemList | filter:search"
                  ng-click="ui.selectItem(item)" ng-show="ui.menumode ==='item'">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">{{item.name}}</h5>
-                        <p class="card-text">With supporting text</p>
-                        <!--<a href="#" class="btn btn-primary">Go somewhere</a>-->
-                    </div>
-                </div>
+                <button class="btn btn-info btn-block" style="margin: 5px;height: 165px;">
+                    <img width="100%" src="../../img/rice1.jpg"/>
+                    <h3 style="margin-top : 10px">{{item.name}}</h3>
+                </button>
             </div>
 
         </div>
     </div>
     <div class="col-xs-6 background-dark">
         <div class="row" style="padding:6px;background-color: #a7a7a7;">
-            <div class="col-xs-4">
-                <input type="text" class="form-control" placeholder="Tel No">
-            </div>
-            <div class="col-xs-4">
-                <input type="text" class="form-control" placeholder="Name">
-            </div>
-            <div class="col-xs-3">
-                <input type="text" class="form-control" placeholder="Order No">
-            </div>
-            <div class="col-xs-1">
-                <button class="btn btn-sm btn-primary">+</button>
-            </div>
+            <form class="form-inline">
+                <div class="col-xs-4">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Mobile No" ng-model="mobile"
+                               ng-keypress="ui.searchByMobileNo($event,mobile)">
+                        <div class="input-group-addon" ng-click="ui.searchByMobile(mobile)"><span
+                                class="glyphicon glyphicon-search"></span></div>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-model="customerName" placeholder="Name" ng-enabled="ui.emptyEmployee === 'true'">
+                        <div class="input-group-addon" ng-click="ui.saveCustomer()"><span class="glyphicon glyphicon-save-file"></span></div>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Order No">
+                        <div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div>
+                    </div>
+                </div>
+            </form>
+
+
         </div>
         <div class="row">
             <div class="col-xs-12">
@@ -523,7 +534,7 @@
                     <col style="width: 10%"/>
                     <tbody>
 
-                    <td>Name</td>
+                    <td>Item Name</td>
                     <td>Qty</td>
                     <td>Price</td>
                     <td>Discount</td>
@@ -549,7 +560,8 @@
                         <td>{{item.discount}}</td>
                         <td>{{item.value}}</td>
                         <td>
-                            <button class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove"></span>
+                            <button class="btn btn-sm btn-danger" ng-click="ui.editItem(item,$index)"><span
+                                    class="glyphicon glyphicon-edit"></span>
                             </button>
                         </td>
                     </tr>
@@ -560,63 +572,66 @@
             </div>
         </div>
         <div class="row" style="padding-top: 10px">
-            <!--<div class="col-xs-3 pull-right">-->
-            <!--<label style="color: white">Balance</label>-->
-            <!--<input type="text" class="form-control">-->
-            <!--</div>-->
             <div class="col-xs-4 pull-right">
                 <label style="color: white">Total Amount</label>
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" smart-input="decimal" ng-model="order.totalAmount">
             </div>
             <div class="col-xs-4 pull-right">
                 <label style="color: white">Total Tax</label>
-                <input type="text" class="form-control">
+                <input type="text" disabled class="form-control" smart-input="decimal" ng-model="order.totalTax">
             </div>
             <div class="col-xs-4 pull-right">
                 <label style="color: white">Sub Total</label>
-                <input type="text" class="form-control">
+                <input type="text" disabled class="form-control" smart-input="decimal" ng-model="order.totalSub">
             </div>
 
         </div>
         <div class="row" style="height: 60px;padding-top: 13px">
             <div class="col-xs-3 pull-right">
-                <button type="button" class="btn btn-success btn-block"><span class="glyphicon glyphicon-usd"></span>
+                <button type="button" class="btn btn-success btn-block" ng-click="ui.payment()"><span
+                        class="glyphicon glyphicon-usd"></span>
                     PAYMENT
                 </button>
             </div>
-            <div class="col-xs-2 pull-right">
-                <button type="button" class="btn btn-success btn-block"><span class="glyphicon glyphicon-print"></span>
-                    PRINT
-                </button>
-            </div>
+            <!--<div class="col-xs-2 pull-right">-->
+                <!--<button type="button" class="btn btn-success btn-block"><span class="glyphicon glyphicon-print"></span>-->
+                    <!--PRINT-->
+                <!--</button>-->
+            <!--</div>-->
             <div class="col-xs-3 pull-right">
                 <button type="button" class="btn btn-warning btn-block"><span class="glyphicon glyphicon-send"></span>
                     SEND KOT/BOT
                 </button>
             </div>
-            <!--<div class="col-xs-3 pull-right">-->
-            <!--<button type="button" class="btn btn-warning btn-block">SEND BOT</button>-->
-            <!--</div>-->
         </div>
     </div>
 
 
-    <!--pop up dialogs-->
+    <!--pop up dialogs select item units-->
     <script type="text/ng-template" id="item_selection_popup.html">
         <div class="col-lg-12 background-light">
             <div class="row">
                 <div class="modal-header">
                     <div class="col-lg-12 text-center">
-                        <label style="font-size: 25px;">SELECT UNIT</label>
+                        <label style="font-size: 25px;">SELECT ITEM - {{itemName}}</label>
                     </div>
                 </div>
                 <div class="col-xs-4" style="margin-top: 10px" ng-repeat="product in productList">
                     <div class="panel panel-primary">
-                        <div class="panel-heading">{{product.mUnit.name}}</div>
-                        <div class="panel-body">RS : {{product.price}}</div>
-                        <input type="number" class="form-control" placeholder="qty" ng-model="product.selectQty">
-                        <!--<label>Discount</label>-->
-                        <input type="text" class="form-control" placeholder="discount" ng-model="product.discount">
+                        <div class="panel-heading text-center">{{product.mUnit.name}} - Rs :{{product.price |
+                            number:2}}
+                        </div>
+                        <div class="panel-body">
+                            <div class="col-xs-12">
+                                <label>Qty</label>
+                                <input type="number" class="form-control" placeholder="qty"
+                                       ng-model="product.selectQty">
+                                <label style="margin-top: 5px">Discount(Rs)</label>
+                                <input type="text" class="form-control" smart-input="decimal" placeholder="discount"
+                                       ng-model="product.discount">
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
@@ -626,6 +641,313 @@
 
                 <div class="modal-footer" style="background-color: #FFFF;">
 
+                </div>
+            </div>
+        </div>
+
+    </script>
+
+    <!--pop up dialogs edit items-->
+    <script type="text/ng-template" id="item_edit_popup.html">
+        <div class="col-lg-12 background-light">
+            <div class="row">
+                <div class="modal-header">
+                    <div class="col-lg-12 text-center">
+                        <label style="font-size: 25px;">EDIT ITEM</label>
+                    </div>
+                </div>
+                <div class="col-xs-12" style="margin-top: 10px">
+                    <label>Item Name</label>
+                    <input type="text" class="form-control" ng-model="edit.itemName" disabled>
+                    <label>Price</label>
+                    <input type="text" class="form-control" ng-model="edit.price" disabled>
+                    <label>Qty</label>
+                    <input type="number" class="form-control" ng-model="edit.qty">
+                    <label>Discount</label>
+                    <input type="text" class="form-control" ng-model="edit.discount" smart-input="decimal">
+                </div>
+
+                <div class="col-xs-12" style="margin-top: 10px">
+                    <button class="btn btn-success btn-block" ng-click="ui.updateOrder()">UPDATE ORDER</button>
+                </div>
+                <div class="col-xs-12" style="margin-top: 10px">
+                    <button class="btn btn-danger btn-block" ng-click="ui.deleteOrder()">DELETE ITEM</button>
+                </div>
+
+                <div class="modal-footer" style="background-color: #FFFF;">
+
+                </div>
+            </div>
+        </div>
+
+    </script>
+
+    <!--pop up payment-->
+    <script type="text/ng-template" id="payment_popup.html">
+        <div class="col-lg-12" style="background-color: white">
+            <div class="row">
+                <div class="modal-header" style="padding: 0px">
+                    <div class="col-lg-12 text-center">
+                        <label style="font-size: 25px;">PAYMENT</label>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <uib-tabset>
+                        <uib-tab index="0" heading="CASH" select="ui.toggleType('CASH');">
+                            <table class="table-rounded control-table square-table">
+                                <col style="width: 70%"/>
+                                <col style="width: 30%"/>
+                                <tbody>
+                                <tr style="background-color: #a0d3ff;">
+                                    <td><input id="cashPayment" smart-input="decimal" class="form-control text-right"
+                                               ng-model="cash"></td>
+                                    <td>
+                                        <a ng-show="ui.addCash === 'true'" class="btn btn-lg btn-success"
+                                           ng-click="ui.addCashAmount(cash);"><span class="glyphicon glyphicon-plus">
+                                        </span>
+                                        </a>
+                                        <a ng-hide="ui.addCash === 'true'" class="btn btn-lg btn-danger"
+                                           ng-click="ui.removeCashAmount();"><span class="glyphicon glyphicon-remove">
+                                        </span>
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </uib-tab>
+                        <uib-tab index="2" heading="CARD" select="ui.toggleType('CARD');">
+                            <table class="table-rounded control-table">
+                                <col style="width: 30%"/>
+                                <col style="width: 30%"/>
+                                <col style="width: 30%"/>
+                                <col style="width: 10%"/>
+                                <tbody>
+                                <tr>
+                                    <th><label>CARD NO</label></th>
+                                    <th><label>CARD TYPE</label></th>
+                                    <th class="text-right"><label>AMOUNT</label></th>
+                                    <th>&nbsp;</th>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <table class="table-rounded control-table square-table">
+                                <col style="width: 30%"/>
+                                <col style="width: 30%"/>
+                                <col style="width: 30%"/>
+                                <col style="width: 10%"/>
+                                <tbody>
+                                <tr style="background-color: #a0d3ff;">
+                                    <td><input smart-input="integer" class="form-control text-right"
+                                               ng-model="cardInfromation.number">
+                                    </td>
+                                    <td>
+                                        <select class="form-control form-group-lg"
+                                                ng-model="cardInfromation.cardType">
+                                            <option value="{{cardType.name}}"
+                                                    ng-repeat="cardType in model.cardTypeList">
+                                                {{cardType.name}}
+                                            </option>
+                                        </select>
+                                    </td>
+                                    <td><input smart-input="decimal" class="form-control text-right"
+                                               ng-model="cardInfromation.amount"
+                                    ></td>
+                                    <td><a class="btn btn-primary"
+                                           ng-click="ui.addCardAmount(cardInfromation);"
+                                    ><span
+                                            class="glyphicon glyphicon-plus"></span></a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div class="smart-scroll-y" style="height: calc(100vh - 564px)" ng-show="paymentInformation.type === 'CARD'">
+                                <table class="table-rounded control-table">
+                                    <col style="width: 30%"/>
+                                    <col style="width: 30%"/>
+                                    <col style="width: 30%"/>
+                                    <col style="width: 10%"/>
+                                    <tbody>
+                                    <tr style="background-color: #33a7c5;"
+                                        ng-repeat="paymenetInformation in payment.tPaymentByIndexNo.tPaymentDetailssByIndexNo|filter:{type:'CARD'}">
+                                        <td>{{paymenetInformation.number}}</td>
+                                        <td class="text-right">{{paymenetInformation.cardType}}
+                                        </td>
+                                        <td class="text-right">{{paymenetInformation.amount|number:2}}</td>
+                                        <td><a class="btn btn-danger"
+                                               ng-click="ui.getCardAndChequePaymentDelete(number);">
+                                            <span class="glyphicon glyphicon-remove"></span></a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="smart-scroll-y" style="height: calc(100vh - 564px);border: 1px solid #5f9a5e" ng-hide="paymentInformation.type === 'CARD' ">
+                            </div>
+                        </uib-tab>
+                        <!--<uib-tab index="1" heading="CHEQUE" select="ui.toggleType('CHEQUE');">-->
+                        <!--<table class="table-rounded control-table">-->
+                        <!--<col style="width: 30.33%"/>-->
+                        <!--<col style="width: 30.33%"/>-->
+                        <!--<col style="width: 30.33%"/>-->
+                        <!--<col style="width: 8.33%"/>-->
+                        <!--<tbody>-->
+                        <!--<tr>-->
+                        <!--<td><label>Cheque No</label><input smart-input="integer"-->
+                        <!--class="form-control text-right"-->
+                        <!--ng-model="paymentInformation.number"-->
+                        <!--&gt;</td>-->
+                        <!--<td><label>Date</label><input smart-input="date" class="form-control text-right"-->
+                        <!--ng-model="paymentInformation.chequeDate"-->
+                        <!--&gt;</td>-->
+                        <!--<td><label>Amount</label><input smart-input="decimal"-->
+                        <!--class="form-control text-right"-->
+                        <!--ng-model="paymentInformation.amount"-->
+                        <!--&gt;</td>-->
+                        <!--<td><a class="btn btn-primary" style="margin-top: 28px"-->
+                        <!--ng-click="ui.getInsertCardAndChequePayment(paymentInformation, 'CHEQUE');"-->
+                        <!--&gt;<span-->
+                        <!--class="glyphicon glyphicon-plus"></span></a></td>-->
+                        <!--</tr>-->
+                        <!--</tbody>-->
+                        <!--</table>-->
+
+                        <!--<table class="table-rounded control-table">-->
+                        <!--<col style="width: 20%"/>-->
+                        <!--<col style="width: 20%"/>-->
+                        <!--<col style="width: 20%"/>-->
+                        <!--<col style="width: 10%"/>-->
+                        <!--<tbody>-->
+                        <!--<tr>-->
+                        <!--<th>Cheque No</th>-->
+                        <!--<th>Date</th>-->
+                        <!--<th class="text-right">amount</th>-->
+                        <!--<th>&nbsp;</th>-->
+                        <!--</tr>-->
+                        <!--</tbody>-->
+                        <!--</table>-->
+                        <!--<div class="smart-scroll-y" style="height: calc(100vh - 500px);">-->
+                        <!--<table class="table-rounded control-table table-hover">-->
+                        <!--<col style="width: 20%"/>-->
+                        <!--<col style="width: 20%"/>-->
+                        <!--<col style="width: 15%"/>-->
+                        <!--<col style="width: 15%"/>-->
+                        <!--<col style="width: 20%"/>-->
+                        <!--<col style="width: 10%"/>-->
+                        <!--<tbody>-->
+                        <!--<tr ng-repeat="paymenetInformation in paymentInformationList|filter:{type:'CHEQUE'}">-->
+                        <!--<td>{{paymenetInformation.number}}</td>-->
+                        <!--<td>{{paymenetInformation.chequeDate| date:'yyyy-MM-dd'}}</td>-->
+                        <!--<td>{{model.bankLable(paymenetInformation.bank)}}</td>-->
+                        <!--<td>{{model.branchLable(paymenetInformation.bankBranch)}}</td>-->
+                        <!--<td class="text-right">{{paymenetInformation.amount|number:2}}</td>-->
+                        <!--<td><a class="btn btn-danger"-->
+                        <!--ng-click="ui.getCardAndChequePaymentDelete(number);"-->
+                        <!--ng-disabled="ui.mode !== 'NEW'"><span-->
+                        <!--class="glyphicon glyphicon-remove"></span></a></td>-->
+                        <!--</tr>-->
+                        <!--</tbody>-->
+                        <!--</table>-->
+                        <!--</div>-->
+                        <!--</uib-tab>-->
+
+                    </uib-tabset>
+                    <div class="col-xs-6" style="margin-top: 10px">
+                        <form>
+                            <div class="form-group row">
+                                <label style="text-align: right;padding-top: 8px" for="cash"
+                                       class="col-sm-5 col-form-label">Cash :</label>
+                                <div class="col-sm-7">
+                                    <input disabled type="text" smart-input="decimal"
+                                           ng-model="payment.tPaymentByIndexNo.cashAmount"
+                                           class="form-control" id="cash">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label style="text-align: right;padding-top: 8px" for="card"
+                                       class="col-sm-5 col-form-label">Card :</label>
+                                <div class="col-sm-7">
+                                    <input disabled type="text" smart-input="decimal"
+                                           ng-model="payment.tPaymentByIndexNo.cardAmount"
+                                           class="form-control" id="card">
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="col-xs-6" style="margin-top: 10px">
+                        <div class="form-group row">
+                            <label style="text-align: right;padding-top: 8px" for="cheque"
+                                   class="col-sm-5 col-form-label">Cheque :</label>
+                            <div class="col-sm-7">
+                                <input disabled type="text" smart-input="decimal"
+                                       ng-model="payment.tPaymentByIndexNo.chequeAmount"
+                                       class="form-control" id="cheque">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label style="text-align: right;padding-top: 8px" for="totalAmount"
+                                   class="col-sm-5 col-form-label">Payble :</label>
+                            <div class="col-sm-7">
+                                <input disabled type="text" smart-input="decimal"
+                                       ng-model="order.totalAmount" class="form-control" id="totalAmount">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="text-center" style="width:auto;height: 135px;border:  1px solid silver; padding: 15px;background-color: lightgray;">
+                            <h2>GRAND TOTAL <br> RS : {{payment.finalAmount | number:2}}</h2>
+                        </div>
+                    </div>
+                    <div class="col-xs-8">
+                        <form>
+                            <div class="form-group row">
+                                <label style="text-align: right;padding-top: 8px" for="discount"
+                                       class="col-sm-5 col-form-label">Discount :</label>
+                                <div class="col-sm-4">
+                                    <input type="text" ng-change="ui.addDiscountValue(payment.discountValue)"
+                                           smart-input="decimal" ng-model="payment.discountValue"
+                                           class="form-control" id="discount">
+                                </div>
+                                <div class="col-sm-3">
+                                    <input type="text" ng-change="ui.addDiscountRate(payment.discountRate)"
+                                           placeholder="%" ng-model="payment.discountRate"
+                                           class="form-control">
+                                </div>
+                            </div>
+                            <!--<div class="form-group row">-->
+                                <!--<label style="text-align: right;padding-top: 8px" for="total"-->
+                                       <!--class="col-sm-5 col-form-label">Grand Total :</label>-->
+                                <!--<div class="col-sm-7">-->
+                                    <!--<input disabled type="text" smart-input="decimal"-->
+                                           <!--ng-model="payment.finalAmount" class="form-control" id="total">-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                            <div class="form-group row">
+                                <label style="text-align: right;padding-top: 8px" for="payAmount"
+                                       class="col-sm-5 col-form-label">Pay Amount :</label>
+                                <div class="col-sm-7">
+                                    <input type="text"  smart-input="decimal"
+                                           ng-model="payAmount" class="form-control" id="payAmount" disabled>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label style="text-align: right;padding-top: 8px" for="balance"
+                                       class="col-sm-5 col-form-label">Balance :</label>
+                                <div class="col-sm-7">
+                                    <input type="text" smart-input="decimal" ng-model="balance"
+                                           class="form-control" id="balance" disabled>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-lg-12">
+                        <button class="btn  btn-success btn-block" ng-click="ui.completePayment()">Complete Payment
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

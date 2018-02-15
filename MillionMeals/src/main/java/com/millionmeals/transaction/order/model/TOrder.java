@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Date;
 
 /**
  * Created by my on 2018-02-06.
@@ -14,9 +15,11 @@ public class TOrder {
     private int indexNo;
     private int mCustomer;
     private int mBranch;
-    private String orderNo;
-    private Timestamp date;
-    private BigDecimal totalPrice;
+    private int orderNo;
+    private Date date;
+    private BigDecimal totalSub;
+    private BigDecimal totalTax;
+    private BigDecimal totalAmount;
     private String orderType1;
     private String orderType2;
     private String status;
@@ -55,33 +58,55 @@ public class TOrder {
 
     @Basic
     @Column(name = "order_no", nullable = true, length = 45)
-    public String getOrderNo() {
+    public int getOrderNo() {
         return orderNo;
     }
 
-    public void setOrderNo(String orderNo) {
+    public void setOrderNo(int orderNo) {
         this.orderNo = orderNo;
     }
 
     @Basic
     @Column(name = "date", nullable = true)
-    public Timestamp getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(Timestamp date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
     @Basic
-    @Column(name = "total_price", nullable = true, precision = 2)
-    public BigDecimal getTotalPrice() {
-        return totalPrice;
+    @Column(name = "total_sub", nullable = true, precision = 2)
+    public BigDecimal getTotalSub() {
+        return totalSub;
     }
 
-    public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
+    public void setTotalSub(BigDecimal totalSub) {
+        this.totalSub = totalSub;
     }
+
+    @Basic
+    @Column(name = "total_tax", nullable = true, precision = 2)
+    public BigDecimal getTotalTax() {
+        return totalTax;
+    }
+
+    public void setTotalTax(BigDecimal totalTax) {
+        this.totalTax = totalTax;
+    }
+
+    @Basic
+    @Column(name = "total_amount", nullable = true, precision = 2)
+    public BigDecimal getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(BigDecimal totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+
 
     @Basic
     @Column(name = "order_type1", nullable = true, length = 45)
@@ -92,7 +117,6 @@ public class TOrder {
     public void setOrderType1(String orderType1) {
         this.orderType1 = orderType1;
     }
-
     @Basic
     @Column(name = "order_type2", nullable = true, length = 45)
     public String getOrderType2() {
@@ -128,9 +152,11 @@ public class TOrder {
                 "indexNo=" + indexNo +
                 ", mCustomer=" + mCustomer +
                 ", mBranch=" + mBranch +
-                ", orderNo='" + orderNo + '\'' +
+                ", orderNo=" + orderNo +
                 ", date=" + date +
-                ", totalPrice=" + totalPrice +
+                ", totalSub=" + totalSub +
+                ", totalTax=" + totalTax +
+                ", totalAmount=" + totalAmount +
                 ", orderType1='" + orderType1 + '\'' +
                 ", orderType2='" + orderType2 + '\'' +
                 ", status='" + status + '\'' +

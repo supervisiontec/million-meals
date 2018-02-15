@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Created by my on 2018-02-06.
@@ -22,7 +23,7 @@ public class TOrderDetails {
     private String status;
     private Byte isChange;
     private String itemName;
-    private Timestamp date;
+    private Date date;
     private BigDecimal discount;
     private TOrder tOrderByTOrder;
 
@@ -130,11 +131,11 @@ public class TOrderDetails {
 
     @Basic
     @Column(name = "date", nullable = true)
-    public Timestamp getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(Timestamp date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

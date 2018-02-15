@@ -1,13 +1,7 @@
 package com.millionmeals.transaction.order;
 
-import com.millionmeals.transaction.master.ItemRepository;
-import com.millionmeals.transaction.master.MainCategoryRepository;
-import com.millionmeals.transaction.master.ProductRepository;
-import com.millionmeals.transaction.master.SubCategoryRepository;
-import com.millionmeals.transaction.master.model.MItem;
-import com.millionmeals.transaction.master.model.MMainCategory;
-import com.millionmeals.transaction.master.model.MProduct;
-import com.millionmeals.transaction.master.model.MSubCategory;
+import com.millionmeals.transaction.master.*;
+import com.millionmeals.transaction.master.model.*;
 import com.millionmeals.transaction.order.model.TOrder;
 import com.millionmeals.transaction.order.model.TOrderDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +10,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -46,29 +45,79 @@ public class OrderService {
     @Autowired
     private ItemRepository itemRepository;
 
+    @Autowired
+    private CustomerRepository customerRepository;
+
 
     public List<TOrder> getAllOrder() {
         return orderRepository.findAll();
     }
 
     @Transactional
-    public  TOrder saveOrder(TOrder order) {
-//       TOrder saveOrder =  orderRepository.save(order);
-//        System.out.println(order.toString());
-//        for (TOrderDetails details : order.gettOrderDetailssByIndexNo()) {
-//            details.settOrderByTOrder(saveOrder.getIndexNo());
-//            System.out.println(details.toString());
-//            return orderDetailsRepository.save(details);
-//        }
+    public TOrder saveOrder(TOrder order, int index) {
+        int branch = 1;
 
-        TOrder saveOrder = orderRepository.save(order);
-        System.out.println(order.toString());
-        for (TOrderDetails details : order.gettOrderDetailssByIndexNo()) {
-            details.settOrderByTOrder(saveOrder);
-            orderDetailsRepository.save(details);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        //get last order no
+        int lastOrderNo = orderRepository.findLastOrderNoByDate(dateFormat.format(date), branch);
+
+        //update existing order
+        TOrder findone = orderRepository.findOne(index);
+        if (findone != null) {
+            findone.setTotalSub(order.getTotalSub());
+            findone.setTotalAmount(order.getTotalAmount());
+            orderRepository.save(findone);
+            for (TOrderDetails details : order.gettOrderDetailssByIndexNo()) {
+                details.settOrderByTOrder(findone);
+                details.setDate(new Date());
+                orderDetailsRepository.save(details);
+            }
+            return findone;
+        } else {
+            //save new order
+            order.setDate(new Date());
+            order.setOrderNo(lastOrderNo);
+            TOrder saveOrder = orderRepository.save(order);
+            System.out.println(order.toString());
+            for (TOrderDetails details : order.gettOrderDetailssByIndexNo()) {
+                details.settOrderByTOrder(saveOrder);
+                details.setDate(new Date());
+                orderDetailsRepository.save(details);
+            }
+
+            return saveOrder;
         }
 
-        return saveOrder;
+    }
+
+    @Transactional
+    public Boolean updateOrder(TOrderDetails orderDetail, int index, BigDecimal subTotal, BigDecimal totalAmount) {
+        TOrderDetails orderDetails = orderDetailsRepository.findOne(orderDetail.getIndexNo());
+        orderDetails.setQty(orderDetail.getQty());
+        orderDetails.setDiscount(orderDetail.getDiscount());
+        orderDetails.setValue(orderDetail.getValue());
+        orderDetails.setDiscount(orderDetail.getDiscount());
+        orderDetailsRepository.save(orderDetails);
+
+        TOrder findOrder = orderRepository.findOne(index);
+        findOrder.setTotalSub(subTotal);
+        findOrder.setTotalAmount(totalAmount);
+
+        orderRepository.save(findOrder);
+
+        return true;
+    }
+
+    @Transactional
+    public Boolean deleteOrder(int index, int index2, BigDecimal subTotal, BigDecimal totalAmount) {
+        TOrder order = orderRepository.findOne(index);
+        order.setTotalSub(subTotal);
+        order.setTotalAmount(totalAmount);
+        orderRepository.save(order);
+
+        orderDetailsRepository.delete(index2);
+        return true;
     }
 
     //other funtions
@@ -77,7 +126,7 @@ public class OrderService {
     }
 
     public List<MItem> findAllSubCategoryByMainCategory(int maincategory) {
-        return itemRepository.findBymMainCategory(maincategory);
+        return itemRepository.findBymMainCategoryGroupBymSubCategory(maincategory);
     }
 
     public List<MProduct> findProductByItem(int index) {
@@ -88,5 +137,21 @@ public class OrderService {
         MSubCategory subCategory = subCategoryRepository.findOne(index);
 
         return itemRepository.findBymSubCategory(subCategory);
+    }
+
+    public MCustomer findByTelNo(String mobile) {
+        System.out.println(mobile);
+        return customerRepository.findByMobile(mobile);
+    }
+
+    public MCustomer saveCustomer(MCustomer customer) {
+        MCustomer findOne = customerRepository.findByMobile(customer.getMobile());
+        if (findOne.getIndexNo() != null) {
+            findOne.setMobile(customer.getMobile());
+            findOne.setName(customer.getName());
+            return customerRepository.save(findOne);
+        } else {
+            return customerRepository.save(customer);
+        }
     }
 }
