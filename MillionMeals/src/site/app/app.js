@@ -3,7 +3,8 @@
     angular.module("appModule", [
         "ngRoute",
         "ngCookies",
-        "ui.bootstrap"
+        "ui.bootstrap",
+        "ui-notification"
     ]);
 
     //constants

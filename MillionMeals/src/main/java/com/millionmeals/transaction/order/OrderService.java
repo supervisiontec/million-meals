@@ -55,38 +55,42 @@ public class OrderService {
 
     @Transactional
     public TOrder saveOrder(TOrder order, int index) {
-        int branch = 1;
+        if (order.gettOrderDetailssByIndexNo().size() > 0) {
+            int branch = 1;
 
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
-        //get last order no
-        int lastOrderNo = orderRepository.findLastOrderNoByDate(dateFormat.format(date), branch);
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = new Date();
+            //get last order no
+            int lastOrderNo = orderRepository.findLastOrderNoByDate(dateFormat.format(date), branch);
 
-        //update existing order
-        TOrder findone = orderRepository.findOne(index);
-        if (findone != null) {
-            findone.setTotalSub(order.getTotalSub());
-            findone.setTotalAmount(order.getTotalAmount());
-            orderRepository.save(findone);
-            for (TOrderDetails details : order.gettOrderDetailssByIndexNo()) {
-                details.settOrderByTOrder(findone);
-                details.setDate(new Date());
-                orderDetailsRepository.save(details);
+            //update existing order
+            TOrder findone = orderRepository.findOne(index);
+            if (findone != null) {
+                findone.setTotalSub(order.getTotalSub());
+                findone.setTotalAmount(order.getTotalAmount());
+                orderRepository.save(findone);
+                for (TOrderDetails details : order.gettOrderDetailssByIndexNo()) {
+                    details.settOrderByTOrder(findone);
+                    details.setDate(new Date());
+                    orderDetailsRepository.save(details);
+                }
+                return findone;
+            } else {
+                //save new order
+                order.setDate(new Date());
+                order.setOrderNo(lastOrderNo);
+                TOrder saveOrder = orderRepository.save(order);
+                System.out.println(order.toString());
+                for (TOrderDetails details : order.gettOrderDetailssByIndexNo()) {
+                    details.settOrderByTOrder(saveOrder);
+                    details.setDate(new Date());
+                    orderDetailsRepository.save(details);
+                }
+
+                return saveOrder;
             }
-            return findone;
         } else {
-            //save new order
-            order.setDate(new Date());
-            order.setOrderNo(lastOrderNo);
-            TOrder saveOrder = orderRepository.save(order);
-            System.out.println(order.toString());
-            for (TOrderDetails details : order.gettOrderDetailssByIndexNo()) {
-                details.settOrderByTOrder(saveOrder);
-                details.setDate(new Date());
-                orderDetailsRepository.save(details);
-            }
-
-            return saveOrder;
+            return null;
         }
 
     }

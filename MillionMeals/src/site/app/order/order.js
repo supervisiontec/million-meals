@@ -122,7 +122,7 @@
 
     //controller
     angular.module("appModule")
-        .controller("orderController", function ($scope, orderFactory, $uibModal, $uibModalStack,optionPane) {
+        .controller("orderController", function ($scope, orderFactory, $uibModal, $uibModalStack, optionPane, Notification) {
             //data models
             $scope.model = {};
             $scope.http = {};
@@ -134,10 +134,11 @@
             $scope.tableIndex = null;
             $scope.selectedItemList = [];
             $scope.edit.selectedItem = {};
+            $scope.selectedTempList = [];
 
             $scope.customer = {
-                name : null,
-                mobile : null
+                name: null,
+                mobile: null
             };
 
             $scope.model.cardTypeList = [
@@ -293,21 +294,27 @@
             $scope.http.saveOrder = function () {
                 console.log($scope.orderIndex)
                 orderFactory.saveOrder(JSON.stringify($scope.order), parseInt($scope.orderIndex), function (data) {
-                    $scope.order.tOrderDetailssByIndexNo = [];
-                    $scope.orderIndex = data.indexNo;
-                    $scope.selectedItemList = data.tOrderDetailssByIndexNo;
+                    console.log(data + "sssssssssss")
+                    if (data) {
+                        $scope.order.tOrderDetailssByIndexNo = [];
+                        $scope.orderIndex = data.indexNo;
+                        $scope.selectedItemList = data.tOrderDetailssByIndexNo;
+                        $scope.selectedTempList = data.tOrderDetailssByIndexNo;
+                    } else {
+                        //TODO reaset some field
+                    }
+
 
                 });
             };
 
             $scope.http.updateOrder = function (item, index, subTotal, totalAmount) {
+                console.log("dddddddddddd")
                 orderFactory.updateOrder(item, index, subTotal, totalAmount,
                     function (data) {
                         if (data) {
                             // Notification.success("Update Success....");
                             $uibModalStack.dismissAll();
-                        } else {
-                            //TODO reaset model or get order details
                         }
                     });
             };
@@ -325,10 +332,10 @@
 
             $scope.http.searchByMobileNo = function (mobile) {
                 orderFactory.searchByMobileNo(mobile, function (data) {
-                    if(data){
+                    if (data) {
                         $scope.order.mCustomer = data.indexNo;
                         $scope.customerName = data.name;
-                    }else{
+                    } else {
                         $scope.customerName = "";
                         $scope.ui.emptyEmployee = 'true';
                     }
@@ -395,10 +402,20 @@
 
             //new customer save
             $scope.ui.saveCustomer = function () {
-                $scope.customer.name = $scope.customerName;
-                $scope.customer.mobile = $scope.mobile;
+                console.log($scope.customerName)
+                console.log($scope.mobile)
 
-                $scope.http.saveCustomer(JSON.stringify($scope.customer));
+                if ($scope.customerName !== "" && $scope.mobile !== "") {
+                    if ($scope.customerName !== null && $scope.mobile !== null) {
+                        $scope.customer.name = $scope.customerName;
+                        $scope.customer.mobile = $scope.mobile;
+
+                        $scope.http.saveCustomer(JSON.stringify($scope.customer));
+                    }
+                } else {
+                    Notification.error("Customer Details Empty...");
+                }
+
             };
 
 
@@ -438,6 +455,7 @@
 
                 $scope.http.saveOrder();
                 $uibModalStack.dismissAll();
+
             };
 
             $scope.ui.updateOrder = function () {
@@ -627,7 +645,7 @@
                 } else {
                     $scope.balance = $scope.payAmount - $scope.payment.finalAmount;
                 }
-                angular.forEach($scope.payment.tPaymentByIndexNo.tPaymentDetailssByIndexNo, function (val,$index) {
+                angular.forEach($scope.payment.tPaymentByIndexNo.tPaymentDetailssByIndexNo, function (val, $index) {
                     if (val.type === 'CASH') {
                         $scope.payment.tPaymentByIndexNo.tPaymentDetailssByIndexNo.splice($index, 1);
                         console.log($scope.payment)
