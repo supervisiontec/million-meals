@@ -147,7 +147,7 @@ public class OrderService {
 
     public MCustomer saveCustomer(MCustomer customer) {
         MCustomer findOne = customerRepository.findByMobile(customer.getMobile());
-        if (findOne.getIndexNo() != null) {
+        if (findOne != null) {
             findOne.setMobile(customer.getMobile());
             findOne.setName(customer.getName());
             return customerRepository.save(findOne);
