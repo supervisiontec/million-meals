@@ -21,7 +21,7 @@ public class PaymentController {
     }
 
     @RequestMapping(path = "/save",method = RequestMethod.POST)
-    public Boolean savePayment(@RequestBody TInvoice invoice){
+    public TInvoice savePayment(@RequestBody TInvoice invoice){
        return paymentService.savePayment(invoice);
     }
 }

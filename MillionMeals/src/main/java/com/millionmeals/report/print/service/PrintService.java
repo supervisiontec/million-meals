@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import javax.sql.DataSource;
 import java.io.File;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import javax.print.attribute.HashPrintRequestAttributeSet;
@@ -47,15 +48,15 @@ public class PrintService {
         return dataSource.getConnection();
     }
 
-    public Integer printInvoice(Integer jobCard) {
+    public Integer printInvoice(Integer invoiceNo,String date,Integer branch) {
         try {
             JasperCompileManager.compileReportToFile("./reports/invoice.jrxml", "./reports/invoice.jasper");
             JasperReport jasperReport = (JasperReport) JRLoader.loadObject(new File("./reports/invoice.jasper"));
 
             Map<String, Object> params = new HashMap<>();
-            params.put("invoice_date", "2018-02-19");
-            params.put("branch", 1);
-            params.put("invoice_no", 1);
+            params.put("invoice_date", date);
+            params.put("branch", branch);
+            params.put("invoice_no", invoiceNo);
 
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, getConnection());
 

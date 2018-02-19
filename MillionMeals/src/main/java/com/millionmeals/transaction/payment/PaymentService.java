@@ -34,7 +34,7 @@ public class PaymentService {
     }
 
     @Transactional
-    public Boolean savePayment(TInvoice invoice) {
+    public TInvoice savePayment(TInvoice invoice) {
         int  branch = 1;
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -53,6 +53,6 @@ public class PaymentService {
         invoice.setDate(new Date());
         invoiceRepository.save(invoice);
 
-        return true;
+        return invoice;
     }
 }

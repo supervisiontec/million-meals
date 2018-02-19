@@ -105,6 +105,17 @@
 
                     });
             };
+            //print inovice
+            factory.printInvoice = function (date,invoiceNo, callback) {
+                var url = systemConfig.apiUrl + "/api/care-point/print-service/print-invoice/" + date +"/"+invoiceNo;
+                $http.get(url)
+                    .success(function (data, status, headers) {
+                        callback(data);
+                    })
+                    .error(function (data, status, headers) {
+
+                    });
+            };
             //completeOrder
             factory.completeOrder = function (payment, callback) {
                 var url = systemConfig.apiUrl + "/api/restaurant/payment/save";
@@ -133,7 +144,7 @@
 
     //controller
     angular.module("appModule")
-        .controller("orderController", function ($scope, orderFactory, $uibModal, $uibModalStack, optionPane, Notification, systemConfig) {
+        .controller("orderController", function ($scope, orderFactory,$filter, $uibModal, $uibModalStack, optionPane, Notification, systemConfig) {
             //data models
             $scope.model = {};
             $scope.http = {};
@@ -364,6 +375,9 @@
                         $uibModalStack.dismissAll();
                         $scope.resetModel();
                         optionPane.successMessage("", "ORDER PAYMENT SUCCESS");
+                        orderFactory.printInvoice($filter('date')(data.date,"yyyy-MM-dd"),data.invoiceNo,function (data) {
+
+                        });
                     }
                 });
             };

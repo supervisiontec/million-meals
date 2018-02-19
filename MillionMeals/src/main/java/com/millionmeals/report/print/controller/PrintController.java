@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  *
  * @author kavish manjitha
@@ -25,8 +28,10 @@ public class PrintController {
     @Autowired
     private PrintService printService;
 
-    @RequestMapping(value = "/print-incoice/{order}", method = RequestMethod.GET)
-    public Integer printEstimate(@PathVariable Integer order){
-        return printService.printInvoice(order);
+    @RequestMapping(value = "/print-invoice/{date}/{invoice}", method = RequestMethod.GET)
+    public Integer printEstimate(@PathVariable("date") String date,@PathVariable("invoice") Integer invoice){
+        System.out.println(invoice +"ssssssssssssssssssssssssssssssss");
+        int branch = 1;
+        return printService.printInvoice(invoice,date,branch);
     }
 }
