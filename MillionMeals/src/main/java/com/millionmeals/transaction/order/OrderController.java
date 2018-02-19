@@ -7,8 +7,14 @@ import com.millionmeals.transaction.master.model.MProduct;
 import com.millionmeals.transaction.order.model.TOrder;
 import com.millionmeals.transaction.order.model.TOrderDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
@@ -75,4 +81,30 @@ public class OrderController {
     public MCustomer saveCustomer(@RequestBody MCustomer customer) {
         return orderService.saveCustomer(customer);
     }
+
+    @RequestMapping(value = "/food-image/{path}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
+    public void loadFoodImage(@PathVariable("path") String path, HttpServletResponse response) {
+        System.out.println("sssssssssssssssssssssssssssssss" + path);
+//        File file = new File("./files/" + path + ".jpg");
+        File file = new File("./files/" + path +".jpg");
+
+        System.out.println(file.getAbsolutePath());
+        try {
+            OutputStream outputStream = response.getOutputStream();
+
+            FileInputStream inputStream = new FileInputStream(file);
+            byte[] read = new byte[8196];
+            int c = 0;
+            while ((c = inputStream.read(read, 0, read.length)) > 0) {
+                outputStream.write(read, 0, c);
+                outputStream.flush();
+            }
+            inputStream.close();
+            outputStream.close();
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
 }

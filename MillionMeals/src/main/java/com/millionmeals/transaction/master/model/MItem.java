@@ -15,6 +15,7 @@ public class MItem {
     private Integer mBranch;
     private String name;
     private String type;
+    private String image;
 
     @Id
     @Column(name = "index_no")
@@ -84,6 +85,17 @@ public class MItem {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+
+    @Basic
+    @Column(name = "image")
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     @Override

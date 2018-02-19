@@ -50,6 +50,17 @@
 
                     });
             };
+            //find image
+            // factory.findImage = function (path, callback) {
+            //     var url = systemConfig.apiUrl + "/api/restaurant/order/food-image/" + path;
+            //     $http.get(url)
+            //         .success(function (data, status, headers) {
+            //             callback(data);
+            //         })
+            //         .error(function (data, status, headers) {
+            //
+            //         });
+            // };
             //save order
             factory.saveOrder = function (order, index, callback) {
                 var url = systemConfig.apiUrl + "/api/restaurant/order/save-order/" + index;
@@ -122,7 +133,7 @@
 
     //controller
     angular.module("appModule")
-        .controller("orderController", function ($scope, orderFactory, $uibModal, $uibModalStack, optionPane, Notification) {
+        .controller("orderController", function ($scope, orderFactory, $uibModal, $uibModalStack, optionPane, Notification, systemConfig) {
             //data models
             $scope.model = {};
             $scope.http = {};
@@ -134,7 +145,6 @@
             $scope.tableIndex = null;
             $scope.selectedItemList = [];
             $scope.edit.selectedItem = {};
-            $scope.selectedTempList = [];
 
             $scope.customer = {
                 name: null,
@@ -259,17 +269,22 @@
 
             $scope.http.findAllSubCategory = function (index) {
                 orderFactory.findAllSubCategory(index, function (data) {
-                    console.log(data)
                     $scope.subCategoryList = data;
                 });
             };
 
             $scope.http.findAllItems = function (index) {
                 orderFactory.findAllItems(index, function (data) {
-                    console.log(data)
                     $scope.itemList = data;
+
                 });
             };
+
+            $scope.http.findImage = function (image) {
+                return systemConfig.apiUrl + "/api/restaurant/order/food-image/" + image;
+                // $scope.itemImage = url;
+            };
+
 
             $scope.http.findProductByItem = function (index) {
                 orderFactory.findProductByItem(index, function (data) {
@@ -299,7 +314,7 @@
                         $scope.order.tOrderDetailssByIndexNo = [];
                         $scope.orderIndex = data.indexNo;
                         $scope.selectedItemList = data.tOrderDetailssByIndexNo;
-                        $scope.selectedTempList = data.tOrderDetailssByIndexNo;
+
                     } else {
                         //TODO reaset some field
                     }
@@ -336,7 +351,7 @@
                         $scope.order.mCustomer = data.indexNo;
                         $scope.customerName = data.name;
                     } else {
-                        $scope.customerName = "";
+                        $scope.customerName = null;
                         $scope.ui.emptyEmployee = 'true';
                     }
                 });
@@ -411,6 +426,8 @@
                         $scope.customer.mobile = $scope.mobile;
 
                         $scope.http.saveCustomer(JSON.stringify($scope.customer));
+                    } else {
+                        Notification.error("Customer Details Empty...");
                     }
                 } else {
                     Notification.error("Customer Details Empty...");
@@ -537,92 +554,100 @@
             };
 
             $scope.ui.addCashAmount = function (cash) {
-                $scope.removeCashAmount = cash;
-                $scope.ui.addCash = 'false';
-                $scope.paymentInformation = {};
-                if (angular.isUndefined($scope.payAmount) || $scope.payAmount == null || $scope.payAmount == 0) {
+                if (cash) {
 
-                    console.log("1")
-                    if (cash >= $scope.payment.finalAmount) {
-                        console.log("A")
-                        var balance = cash - $scope.payment.finalAmount;
-                        $scope.payment.tPaymentByIndexNo.cashAmount = cash - balance;
-                        $scope.paymentInformation.amount = cash - balance;
+                    $scope.removeCashAmount = cash;
+                    $scope.ui.addCash = 'false';
+                    $scope.paymentInformation = {};
+                    if (angular.isUndefined($scope.payAmount) || $scope.payAmount == null || $scope.payAmount == 0) {
+
+                        console.log("1")
+                        if (cash >= $scope.payment.finalAmount) {
+                            console.log("A")
+                            var balance = cash - $scope.payment.finalAmount;
+                            $scope.payment.tPaymentByIndexNo.cashAmount = cash - balance;
+                            $scope.paymentInformation.amount = cash - balance;
+                        } else {
+                            console.log("B")
+                            $scope.payment.tPaymentByIndexNo.cashAmount = cash;
+                            $scope.paymentInformation.amount = cash;
+                        }
                     } else {
-                        console.log("B")
-                        $scope.payment.tPaymentByIndexNo.cashAmount = cash;
-                        $scope.paymentInformation.amount = cash;
+                        console.log("2")
+                        var havetopay = $scope.payment.finalAmount - $scope.payAmount
+                        if (cash >= havetopay) {
+                            console.log("A")
+                            var balance = cash - havetopay;
+                            $scope.payment.tPaymentByIndexNo.cashAmount = cash - balance;
+                            $scope.paymentInformation.amount = cash - balance;
+                        } else {
+                            console.log("B")
+                            $scope.payment.tPaymentByIndexNo.cashAmount = cash - balance;
+                            $scope.paymentInformation.amount = cash - balance;
+                        }
                     }
-                } else {
-                    console.log("2")
-                    var havetopay = $scope.payment.finalAmount - $scope.payAmount
-                    if (cash >= havetopay) {
-                        console.log("A")
-                        var balance = cash - havetopay;
-                        $scope.payment.tPaymentByIndexNo.cashAmount = cash - balance;
-                        $scope.paymentInformation.amount = cash - balance;
-                    } else {
-                        console.log("B")
-                        $scope.payment.tPaymentByIndexNo.cashAmount = cash - balance;
-                        $scope.paymentInformation.amount = cash - balance;
-                    }
+
+                    $scope.ui.payAmountCalculation(cash);
+                    $scope.paymentInformation.type = 'CASH';
+                    $scope.paymentInformation.form = "INVOICE_FORM";
+                    $scope.payment.tPaymentByIndexNo.tPaymentDetailssByIndexNo.push($scope.paymentInformation);
+                    $scope.paymentInformation = {};
+                    console.log($scope.payment)
                 }
-
-                $scope.ui.payAmountCalculation(cash);
-                $scope.paymentInformation.type = 'CASH';
-                $scope.paymentInformation.form = "INVOICE_FORM";
-                $scope.payment.tPaymentByIndexNo.tPaymentDetailssByIndexNo.push($scope.paymentInformation);
-                $scope.paymentInformation = {};
-                console.log($scope.payment)
             };
 
             $scope.ui.addCardAmount = function (information) {
+                console.log(information)
                 $scope.paymentInformation = {};
+                if (information.amount && information.cardType && information.number) {
+                    if (angular.isUndefined($scope.payAmount) || $scope.payAmount == null || $scope.payAmount == 0) {
+                        console.log("1")
+                        if (information.amount >= $scope.payment.finalAmount) {
+                            console.log("A")
+                            var balance = information.amount - $scope.payment.finalAmount;
+                            $scope.payment.tPaymentByIndexNo.cardAmount = information.amount - balance;
+                            $scope.paymentInformation.amount = information.amount - balance;
+                        } else {
+                            console.log("B")
+                            $scope.payment.tPaymentByIndexNo.cardAmount = information.amount;
+                            $scope.paymentInformation.amount = information.amount;
+                        }
 
-                if (angular.isUndefined($scope.payAmount) || $scope.payAmount == null || $scope.payAmount == 0) {
-                    console.log("1")
-                    if (information.amount >= $scope.payment.finalAmount) {
-                        console.log("A")
-                        var balance = information.amount - $scope.payment.finalAmount;
-                        $scope.payment.tPaymentByIndexNo.cardAmount = information.amount - balance;
-                        $scope.paymentInformation.amount = information.amount - balance;
                     } else {
-                        console.log("B")
-                        $scope.payment.tPaymentByIndexNo.cardAmount = information.amount;
-                        $scope.paymentInformation.amount = information.amount;
+                        console.log("2")
+                        var havetopay = $scope.payment.finalAmount - $scope.payAmount
+                        if (information.amount >= havetopay) {
+                            console.log("A")
+                            var balance = information.amount - havetopay;
+                            if ($scope.payment.tPaymentByIndexNo.cardAmount !== null) {
+                                $scope.payment.tPaymentByIndexNo.cardAmount += information.amount;
+                            } else {
+                                $scope.payment.tPaymentByIndexNo.cardAmount = information.amount - balance;
+                            }
+                            $scope.paymentInformation.amount = information.amount - balance;
+                        } else {
+                            console.log("B")
+                            if ($scope.payment.tPaymentByIndexNo.cardAmount !== null) {
+                                $scope.payment.tPaymentByIndexNo.cardAmount += information.amount;
+                            } else {
+                                $scope.payment.tPaymentByIndexNo.cardAmount = information.amount;
+                            }
+                            $scope.paymentInformation.amount += information.amount;
+                        }
                     }
+
+                    $scope.ui.payAmountCalculation(information.amount);
+                    $scope.paymentInformation.type = "CARD";
+                    $scope.paymentInformation.form = "INVOICE_FORM";
+                    $scope.paymentInformation.cardType = information.cardType;
+                    $scope.paymentInformation.number = information.number;
+                    $scope.payment.tPaymentByIndexNo.tPaymentDetailssByIndexNo.push($scope.paymentInformation);
+                    $scope.cardInfromation = {};
+                    // console.log($scope.payment)
 
                 } else {
-                    console.log("2")
-                    var havetopay = $scope.payment.finalAmount - $scope.payAmount
-                    if (information.amount >= havetopay) {
-                        console.log("A")
-                        var balance = information.amount - havetopay;
-                        if ($scope.payment.tPaymentByIndexNo.cardAmount !== null) {
-                            $scope.payment.tPaymentByIndexNo.cardAmount += information.amount;
-                        } else {
-                            $scope.payment.tPaymentByIndexNo.cardAmount = information.amount - balance;
-                        }
-                        $scope.paymentInformation.amount = information.amount - balance;
-                    } else {
-                        console.log("B")
-                        if ($scope.payment.tPaymentByIndexNo.cardAmount !== null) {
-                            $scope.payment.tPaymentByIndexNo.cardAmount += information.amount;
-                        } else {
-                            $scope.payment.tPaymentByIndexNo.cardAmount = information.amount;
-                        }
-                        $scope.paymentInformation.amount += information.amount;
-                    }
+                    Notification.error("Card Details Empty");
                 }
-
-                $scope.ui.payAmountCalculation(information.amount);
-                $scope.paymentInformation.type = "CARD";
-                $scope.paymentInformation.form = "INVOICE_FORM";
-                $scope.paymentInformation.cardType = information.cardType;
-                $scope.paymentInformation.number = information.number;
-                $scope.payment.tPaymentByIndexNo.tPaymentDetailssByIndexNo.push($scope.paymentInformation);
-                $scope.cardInfromation = {};
-                console.log($scope.payment)
             };
 
             $scope.ui.payAmountCalculation = function (amount) {
@@ -654,13 +679,17 @@
             };
 
             $scope.ui.completePayment = function () {
-                $scope.payment.tOrder = $scope.orderIndex;
-                $scope.payment.tPaymentByIndexNo.totalAmount = $scope.payment.finalAmount;
-                $scope.payment.tPaymentByIndexNo.payAmount = $scope.payAmount;
-                $scope.payment.tPaymentByIndexNo.balance = $scope.balance;
-                // $scope.payment.finalAmount = $scope.order.totalSub - $scope.payment.discountValue;
+                console.log($scope.payAmount)
+                if (angular.isUndefined($scope.payAmount) || $scope.payAmount === 0) {
+                    Notification.error("Pay Amount Empty");
+                } else {
+                    $scope.payment.tOrder = $scope.orderIndex;
+                    $scope.payment.tPaymentByIndexNo.totalAmount = $scope.payment.finalAmount;
+                    $scope.payment.tPaymentByIndexNo.payAmount = $scope.payAmount;
+                    $scope.payment.tPaymentByIndexNo.balance = $scope.balance;
 
-                $scope.http.completeOrder(JSON.stringify($scope.payment));
+                    $scope.http.completeOrder(JSON.stringify($scope.payment));
+                }
             };
 
             ////////////// uib pop up ///////////////////
@@ -687,7 +716,7 @@
                 $scope.edit.selectedItem = item;
                 $scope.edit.itemName = item.itemName;
                 $scope.edit.price = item.price;
-                $scope.edit.qty = item.qty;
+                $scope.edit.qty = parseInt(item.qty);
                 $scope.edit.discount = item.discount;
 
                 $uibModal.open({

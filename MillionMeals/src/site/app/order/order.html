@@ -4,13 +4,13 @@
 <div class="index-content-body">
     <div style="height: 55px;padding-top: 10px;background-color: #494966;">
         <div class="col-xs-2">
-            <button ng-click="ui.selectType('walk_in')" ng-class="{'clicked': selectedButton== 'walk_in'  }"
+            <button style="color: black" ng-click="ui.selectType('walk_in')" ng-class="{'clicked': selectedButton== 'walk_in'  }"
                     type="button" class="btn btn-block"><span class="glyphicon glyphicon-road"></span> WALK
                 IN
             </button>
         </div>
         <div class="col-xs-2">
-            <button ng-click="ui.selectType('on_call')" ng-class="{'clicked': selectedButton== 'on_call'  }"
+            <button style="color: black" ng-click="ui.selectType('on_call')" ng-class="{'clicked': selectedButton== 'on_call'  }"
                     type="button" class="btn btn-block"><span class="glyphicon glyphicon-earphone"></span>
                 ON CALL
             </button>
@@ -18,17 +18,17 @@
 
 
         <div class="col-xs-2 pull-right">
-            <button ng-click="ui.selectType2('delivery')" ng-class="{'clicked': selectedButton2 == 'delivery'}"
+            <button style="color: black" ng-click="ui.selectType2('delivery')" ng-class="{'clicked': selectedButton2 == 'delivery'}"
                     type="button" class="btn  btn-block">DELIVERY
             </button>
         </div>
         <div class="col-xs-2 pull-right">
-            <button ng-class="{'clicked': selectedButton2 == 'dine_in'}" type="button" class="btn  btn-block"
+            <button style="color: black" ng-class="{'clicked': selectedButton2 == 'dine_in'}" type="button" class="btn  btn-block"
                     ng-click="ui.selectDineIn('dine_in')">DINE IN
             </button>
         </div>
         <div class="col-xs-2 pull-right">
-            <button ng-class="{'clicked': selectedButton2 == 'take_away'}" type="button" class="btn  btn-block"
+            <button style="color: black" ng-class="{'clicked': selectedButton2 == 'take_away'}" type="button" class="btn  btn-block"
                     ng-click="ui.selectTakeAway('take_away')">TAKE AWAY
             </button>
         </div>
@@ -489,7 +489,12 @@
             <div class="col-sm-6" ng-repeat="item in itemList | filter:search"
                  ng-click="ui.selectItem(item)" ng-show="ui.menumode ==='item'">
                 <button class="btn btn-info btn-block" style="margin: 5px;height: 165px;">
-                    <img width="100%" src="../../img/rice1.jpg"/>
+                    <!--<img width="100%" ng-src="data:image/jpeg;base64,{{itemImage}}"/>-->
+                    <!--<img width="100%" src="data:image/jpeg;base64, iVBORw0KGgoAAAANSUhEUgAAAAUA-->
+<!--AAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO-->
+    <!--9TXL0Y4OHwAAAABJRU5ErkJggg=="/>-->
+
+                    <img width="100%" ng-src="{{http.findImage(item.image)}}"/>
                     <h3 style="margin-top : 10px">{{item.name}}</h3>
                 </button>
             </div>
@@ -673,7 +678,18 @@
                     <label>Price</label>
                     <input type="text" class="form-control" ng-model="edit.price" disabled>
                     <label>Qty</label>
-                    <input type="number" class="form-control" ng-model="edit.qty">
+                    <input type="number"  class="form-control" ng-model="edit.qty">
+                    <!--<div range-spinner-->
+                         <!--range-min="0"-->
+                         <!--range-step="1"-->
+                         <!--range-max="30"-->
+                         <!--range-default-value="0"-->
+                         <!--range-decimal-precision="1"-->
+                         <!--range-model="edit.qty"-->
+                         <!--accept-decimal="false"-->
+                         <!--name-of-field="rangeFieldName"-->
+                         <!--id-of-field="rangeFieldId" ng-model="edit.qty">-->
+                    <!--</div>-->
                     <label>Discount</label>
                     <input type="text" class="form-control" ng-model="edit.discount" smart-input="decimal">
                 </div>
@@ -905,7 +921,7 @@
                     </div>
                     <div class="col-xs-4">
                         <div class="text-center" style="width:auto;height: 135px;border:  1px solid silver; padding: 15px;background-color: lightgray;">
-                            <h2>GRAND TOTAL <br> RS : {{payment.finalAmount | number:2}}</h2>
+                            <h2>NET TOTAL <br> RS : {{payment.finalAmount | number:2}}</h2>
                         </div>
                     </div>
                     <div class="col-xs-8">
