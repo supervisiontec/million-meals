@@ -272,6 +272,8 @@
                     tOrderDetailssByIndexNo: []
                 };
                 $scope.mobile = '111';
+                $scope.order.orderType1 = 'walk_in';
+                $scope.order.orderType2 = 'take_away';
                 $scope.ui.selectMainCategory(1);
                 $scope.ui.searchByMobile(111);
             };
