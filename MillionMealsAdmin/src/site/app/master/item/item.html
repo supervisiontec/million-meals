@@ -26,7 +26,12 @@
                         </tr>
                         <tr>
                             <td><label>Type :</label></td>
-                            <td><input class="form-control" ng-model="model.item.type" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"> </td>
+                            <td>
+                                <select class="form-control" ng-model="model.item.type" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                    <option value="non_stock">Non Stock</option>
+                                    <option value="stock">Stock</option>
+                                </select>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

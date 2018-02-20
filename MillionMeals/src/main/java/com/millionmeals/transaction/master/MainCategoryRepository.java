@@ -10,5 +10,5 @@ import java.util.List;
  */
 public interface MainCategoryRepository extends JpaRepository<MMainCategory,Integer> {
 
-   public List<MMainCategory> findByMBranch(int branch);
+//   public List<MMainCategory> findByMBranch(int branch);
 }

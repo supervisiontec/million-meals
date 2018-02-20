@@ -29,12 +29,7 @@ public class MMainCategory implements Serializable {
     @Basic(optional = false)
     @Column(name = "index_no")
     private Integer indexNo;
-    
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "m_branch")
-    private Integer branch;
-    
+
     @Size(max = 45)
     @Column(name = "name")
     private String name;
@@ -53,13 +48,6 @@ public class MMainCategory implements Serializable {
         this.indexNo = indexNo;
     }
 
-    public Integer getBranch() {
-        return branch;
-    }
-
-    public void setBranch(Integer branch) {
-        this.branch = branch;
-    }
 
     public String getName() {
         return name;

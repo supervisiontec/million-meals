@@ -306,7 +306,6 @@
                         val.selectQty = null;
                         val.discount = null;
                         $scope.productList.push(val);
-                        console.log($scope.productList)
                     });
                 });
             };
@@ -320,9 +319,7 @@
             };
 
             $scope.http.saveOrder = function () {
-                console.log($scope.orderIndex)
                 orderFactory.saveOrder(JSON.stringify($scope.order), parseInt($scope.orderIndex), function (data) {
-                    console.log(data + "sssssssssss")
                     if (data) {
                         $scope.order.tOrderDetailssByIndexNo = [];
                         $scope.orderIndex = data.indexNo;
@@ -337,7 +334,6 @@
             };
 
             $scope.http.updateOrder = function (item, index, subTotal, totalAmount) {
-                console.log("dddddddddddd")
                 orderFactory.updateOrder(item, index, subTotal, totalAmount,
                     function (data) {
                         if (data) {
@@ -364,6 +360,7 @@
                         $scope.order.mCustomer = data.indexNo;
                         $scope.customerName = data.name;
                     } else {
+                        $scope.order.mCustomer = null;
                         $scope.customerName = null;
                         $scope.ui.emptyEmployee = 'true';
                     }
@@ -372,7 +369,6 @@
 
             $scope.http.completeOrder = function (payment) {
                 orderFactory.completeOrder(payment, function (data) {
-                    console.log(data)
                     if (data) {
                         $uibModalStack.dismissAll();
                         $scope.resetModel();
@@ -433,8 +429,6 @@
 
             //new customer save
             $scope.ui.saveCustomer = function () {
-                console.log($scope.customerName)
-                console.log($scope.mobile)
 
                 if ($scope.customerName !== "" && $scope.mobile !== "") {
                     if ($scope.customerName !== null && $scope.mobile !== null) {
@@ -455,6 +449,8 @@
             /////////////////order funtions //////////////////////////
 
             $scope.ui.addToOrder = function () {
+                if($scope.order.mCustomer){
+
                 angular.forEach($scope.productList, function (val) {
                     $scope.tempOderDetails = {};
                     if (val.selectQty) {
@@ -482,12 +478,14 @@
 
                         //total amount calc
                         $scope.order.totalAmount = $scope.order.totalSub + $scope.order.totalTax;
-                        console.log($scope.order)
                     }
                 });
 
                 $scope.http.saveOrder();
                 $uibModalStack.dismissAll();
+                }else {
+                    Notification.error("Please save customer first..");
+                }
 
             };
 
@@ -518,7 +516,6 @@
                 //total amount calc
                 $scope.order.totalAmount = $scope.order.totalSub + $scope.order.totalTax;
 
-                console.log($scope.edit.selectedItem)
                 $scope.http.updateOrder($scope.edit.selectedItem, $scope.orderIndex, $scope.order.totalSub, $scope.order.totalAmount);
             };
 
@@ -577,27 +574,21 @@
                     $scope.paymentInformation = {};
                     if (angular.isUndefined($scope.payAmount) || $scope.payAmount == null || $scope.payAmount == 0) {
 
-                        console.log("1")
                         if (cash >= $scope.payment.finalAmount) {
-                            console.log("A")
                             var balance = cash - $scope.payment.finalAmount;
                             $scope.payment.tPaymentByIndexNo.cashAmount = cash - balance;
                             $scope.paymentInformation.amount = cash - balance;
                         } else {
-                            console.log("B")
                             $scope.payment.tPaymentByIndexNo.cashAmount = cash;
                             $scope.paymentInformation.amount = cash;
                         }
                     } else {
-                        console.log("2")
                         var havetopay = $scope.payment.finalAmount - $scope.payAmount
                         if (cash >= havetopay) {
-                            console.log("A")
                             var balance = cash - havetopay;
                             $scope.payment.tPaymentByIndexNo.cashAmount = cash - balance;
                             $scope.paymentInformation.amount = cash - balance;
                         } else {
-                            console.log("B")
                             $scope.payment.tPaymentByIndexNo.cashAmount = cash - balance;
                             $scope.paymentInformation.amount = cash - balance;
                         }
@@ -608,32 +599,25 @@
                     $scope.paymentInformation.form = "INVOICE_FORM";
                     $scope.payment.tPaymentByIndexNo.tPaymentDetailssByIndexNo.push($scope.paymentInformation);
                     $scope.paymentInformation = {};
-                    console.log($scope.payment)
                 }
             };
 
             $scope.ui.addCardAmount = function (information) {
-                console.log(information)
                 $scope.paymentInformation = {};
                 if (information.amount && information.cardType && information.number) {
                     if (angular.isUndefined($scope.payAmount) || $scope.payAmount == null || $scope.payAmount == 0) {
-                        console.log("1")
                         if (information.amount >= $scope.payment.finalAmount) {
-                            console.log("A")
                             var balance = information.amount - $scope.payment.finalAmount;
                             $scope.payment.tPaymentByIndexNo.cardAmount = information.amount - balance;
                             $scope.paymentInformation.amount = information.amount - balance;
                         } else {
-                            console.log("B")
                             $scope.payment.tPaymentByIndexNo.cardAmount = information.amount;
                             $scope.paymentInformation.amount = information.amount;
                         }
 
                     } else {
-                        console.log("2")
                         var havetopay = $scope.payment.finalAmount - $scope.payAmount
                         if (information.amount >= havetopay) {
-                            console.log("A")
                             var balance = information.amount - havetopay;
                             if ($scope.payment.tPaymentByIndexNo.cardAmount !== null) {
                                 $scope.payment.tPaymentByIndexNo.cardAmount += information.amount;
@@ -642,7 +626,6 @@
                             }
                             $scope.paymentInformation.amount = information.amount - balance;
                         } else {
-                            console.log("B")
                             if ($scope.payment.tPaymentByIndexNo.cardAmount !== null) {
                                 $scope.payment.tPaymentByIndexNo.cardAmount += information.amount;
                             } else {
@@ -659,7 +642,6 @@
                     $scope.paymentInformation.number = information.number;
                     $scope.payment.tPaymentByIndexNo.tPaymentDetailssByIndexNo.push($scope.paymentInformation);
                     $scope.cardInfromation = {};
-                    // console.log($scope.payment)
 
                 } else {
                     Notification.error("Card Details Empty");
@@ -689,13 +671,11 @@
                 angular.forEach($scope.payment.tPaymentByIndexNo.tPaymentDetailssByIndexNo, function (val, $index) {
                     if (val.type === 'CASH') {
                         $scope.payment.tPaymentByIndexNo.tPaymentDetailssByIndexNo.splice($index, 1);
-                        console.log($scope.payment)
                     }
                 });
             };
 
             $scope.ui.completePayment = function () {
-                console.log($scope.payAmount)
                 if (angular.isUndefined($scope.payAmount) || $scope.payAmount === 0) {
                     Notification.error("Pay Amount Empty");
                 } else {

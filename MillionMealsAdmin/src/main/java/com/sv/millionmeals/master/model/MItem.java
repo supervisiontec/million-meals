@@ -33,11 +33,6 @@ public class MItem implements Serializable {
     @Column(name = "name")
     private String name;
     
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "m_branch")
-    private int branch;
-    
     @Size(max = 45)
     @Column(name = "type")
     private String type;
@@ -65,14 +60,6 @@ public class MItem implements Serializable {
 
     public void setIndexNo(Integer indexNo) {
         this.indexNo = indexNo;
-    }
-
-    public int getBranch() {
-        return branch;
-    }
-
-    public void setBranch(int branch) {
-        this.branch = branch;
     }
 
     public String getType() {

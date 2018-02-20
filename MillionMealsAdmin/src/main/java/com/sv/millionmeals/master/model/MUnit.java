@@ -29,11 +29,7 @@ public class MUnit implements Serializable {
     @Basic(optional = false)
     @Column(name = "index_no")
     private Integer indexNo;
-    
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "m_branch")
-    private int mBranch;
+
     
     @Size(max = 45)
     @Column(name = "name")
@@ -46,11 +42,6 @@ public class MUnit implements Serializable {
         this.indexNo = indexNo;
     }
 
-    public MUnit(Integer indexNo, int mBranch) {
-        this.indexNo = indexNo;
-        this.mBranch = mBranch;
-    }
-
     public Integer getIndexNo() {
         return indexNo;
     }
@@ -59,13 +50,6 @@ public class MUnit implements Serializable {
         this.indexNo = indexNo;
     }
 
-    public int getMBranch() {
-        return mBranch;
-    }
-
-    public void setMBranch(int mBranch) {
-        this.mBranch = mBranch;
-    }
 
     public String getName() {
         return name;

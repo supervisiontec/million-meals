@@ -123,7 +123,7 @@ public class OrderService {
 
     //other funtions
     public List<MMainCategory> findAllMainCategory() {
-        return mainCategoryRepository.findByMBranch(branch);
+        return mainCategoryRepository.findAll();
     }
 
     public List<MItem> findAllSubCategoryByMainCategory(int maincategory) {

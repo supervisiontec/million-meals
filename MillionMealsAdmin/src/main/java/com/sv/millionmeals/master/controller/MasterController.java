@@ -59,7 +59,6 @@ public class MasterController {
     // Save Category
     @RequestMapping(value = "/save-category", method = RequestMethod.POST)
     public MCategory saveCategory(@RequestBody MCategory category){
-        category.setBranch(1);
         return masterService.saveCategory(category);
     }
     // Delete Category
@@ -75,7 +74,6 @@ public class MasterController {
     // Save SubCategory
     @RequestMapping(value = "/save-subCategory", method = RequestMethod.POST)
     public MSubCategory saveSubCategory(@RequestBody MSubCategory subCategory){
-        subCategory.setBranch(1);
         return masterService.saveSubCategory(subCategory);
     }
     // Delete SubCategory
@@ -91,7 +89,6 @@ public class MasterController {
     // Save MainCategory
     @RequestMapping(value = "/save-mainCategory", method = RequestMethod.POST)
     public MMainCategory saveMainCategory(@RequestBody MMainCategory mainCategory){
-        mainCategory.setBranch(1);
         return masterService.saveMainCategory(mainCategory);
     }
     // Delete MainCategory

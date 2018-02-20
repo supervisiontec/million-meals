@@ -12,7 +12,6 @@ public class MItem {
     private Integer mCategory;
     private MSubCategory mSubCategory;
     private Integer mMainCategory;
-    private Integer mBranch;
     private String name;
     private String type;
     private String image;
@@ -58,16 +57,6 @@ public class MItem {
     }
 
     @Basic
-    @Column(name = "m_branch")
-    public Integer getmBranch() {
-        return mBranch;
-    }
-
-    public void setmBranch(Integer mBranch) {
-        this.mBranch = mBranch;
-    }
-
-    @Basic
     @Column(name = "type")
     public String getType() {
         return type;
@@ -98,32 +87,4 @@ public class MItem {
         this.image = image;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        MItem mItem = (MItem) o;
-
-        if (indexNo != null ? !indexNo.equals(mItem.indexNo) : mItem.indexNo != null) return false;
-        if (mCategory != null ? !mCategory.equals(mItem.mCategory) : mItem.mCategory != null) return false;
-        if (mSubCategory != null ? !mSubCategory.equals(mItem.mSubCategory) : mItem.mSubCategory != null) return false;
-        if (mMainCategory != null ? !mMainCategory.equals(mItem.mMainCategory) : mItem.mMainCategory != null)
-            return false;
-        if (mBranch != null ? !mBranch.equals(mItem.mBranch) : mItem.mBranch != null) return false;
-        if (type != null ? !type.equals(mItem.type) : mItem.type != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = indexNo != null ? indexNo.hashCode() : 0;
-        result = 31 * result + (mCategory != null ? mCategory.hashCode() : 0);
-        result = 31 * result + (mSubCategory != null ? mSubCategory.hashCode() : 0);
-        result = 31 * result + (mMainCategory != null ? mMainCategory.hashCode() : 0);
-        result = 31 * result + (mBranch != null ? mBranch.hashCode() : 0);
-        result = 31 * result + (type != null ? type.hashCode() : 0);
-        return result;
-    }
 }

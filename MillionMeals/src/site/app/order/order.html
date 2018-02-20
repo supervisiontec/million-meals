@@ -508,14 +508,14 @@
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Mobile No" ng-model="mobile"
                                ng-keypress="ui.searchByMobileNo($event,mobile)">
-                        <div class="input-group-addon" ng-click="ui.searchByMobile(mobile)"><span
+                        <div class="btn-success  input-group-addon" ng-click="ui.searchByMobile(mobile)"><span
                                 class="glyphicon glyphicon-search"></span></div>
                     </div>
                 </div>
-                <div class="col-xs-4">
+                <div class="col-xs-6">
                     <div class="input-group">
                         <input type="text" class="form-control" ng-model="customerName" placeholder="Name" ng-enabled="ui.emptyEmployee === 'true'">
-                        <div class="input-group-addon" ng-click="ui.saveCustomer()"><span class="glyphicon glyphicon-save-file"></span></div>
+                        <div class="btn-success  input-group-addon" ng-click="ui.saveCustomer()"><span class="glyphicon glyphicon-save-file"></span>Save Customer</div>
                     </div>
                 </div>
                 <!--<div class="col-xs-4">-->
