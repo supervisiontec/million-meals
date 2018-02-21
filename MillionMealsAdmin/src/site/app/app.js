@@ -13,7 +13,7 @@
             .constant("systemConfig", {
                 apiUrl:
                         location.hostname === 'localhost'
-                        ? "http://localhost:8090"
+                        ? "http://localhost:8072"
                         : location.protocol + "//" + location.hostname + (location.port ? ":" + location.port : ""),
                 master:"/api/v1/millionMeals/master"
             });

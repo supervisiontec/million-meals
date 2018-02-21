@@ -1,5 +1,6 @@
 $default-color:         #9DA5BE;
-$primary-color:         #5093E1;
+//$primary-color:         #5093E1;
+$primary-color: #00970a;
 $info-color:            #31b0d5;
 $success-color:         #50C14E;
 $warning-color:         #F5A623;
@@ -40,7 +41,8 @@ $success-color-extra-dark-border:    darken($success-color-extra-dark,10%);
 $warning-color-extra-dark-border:    darken($warning-color-extra-dark,10%);
 $danger-color-extra-dark-border:     darken($danger-color-extra-dark,10%);
 
-$bg-ultra-dark-color:   #2F323A;
+//$bg-ultra-dark-color:   #2F323A;
+$bg-ultra-dark-color:   #004a06;
 $bg-hi-dark-color:      #F0F0F0;
 $bg-dark-color:         #FAFAFA;//#EDEFF5;
 $bg-light-color:        #FFFFFF;

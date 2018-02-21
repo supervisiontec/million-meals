@@ -172,7 +172,8 @@ body{
 }
 
 .index-sidebar-navigation li a:hover{
-    background-color: $primary-color;
+    //background-color: $primary-color;
+    background-color: #002304;
     color: $light-font-color;
 }
 .index-sidebar-navigation li a:focus{

@@ -23,7 +23,7 @@ body{
 
 .index-sidebar-left-brand{
     padding: 16px;
-    height: 64px;
+    height: 77px;
     align-content: center;
     flex: 0 1 auto;
 }
@@ -78,7 +78,8 @@ body{
 }
 
 .index-sidebar-navigation li a:hover{
-    background-color: #5093E1;
+    /*background-color: #5093E1;*/
+    background-color: #164614;
     color: #FFFFFF;
 }
 
@@ -272,8 +273,10 @@ body{
 
 /*-----------------start background colors--------------------*/
 .background-ultra-dark{
-    background-color: #2F323A;
+    /*background-color: #2F323A;*/
+    background-color:#004a06 !important;
 }
+
 
 .background-dark{
     background-color: #EDEFF5;

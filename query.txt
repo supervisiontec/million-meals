@@ -1,0 +1,29 @@
+select m_unit.index_no,m_item.name as item,m_unit.name as unit, 
+ifnull((select SUM(t_order_details.qty) from t_order_details
+left join
+m_product on m_product.index_no=t_order_details.m_product 
+where 
+t_order_details.m_product=m.index_no 
+and
+date(t_order_details.date) between '2018-02-19' and '2018-02-21'),0) as total_qty,
+ifnull((select sum(t_order_details.value) from t_order_details
+left join
+m_product on m_product.index_no=t_order_details.m_product 
+where 
+t_order_details.m_product=m.index_no 
+and
+date(t_order_details.date) between '2018-02-19' and '2018-02-21'),0) as total_value
+from
+m_product m
+left join
+m_unit on m_unit.index_no=m.m_unit
+left join
+m_item on m_item.index_no=m.m_item
+left join
+t_order_details on t_order_details.m_product=m.index_no
+left join
+t_order on t_order.index_no=t_order_details.t_order
+left join
+m_branch on m_branch.index_no = t_order.m_branch
+group by
+m.index_no
