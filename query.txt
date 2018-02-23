@@ -1,18 +1,18 @@
+////////// item wise /////////////
+
 select m_unit.index_no,m_item.name as item,m_unit.name as unit, 
-ifnull((select SUM(t_order_details.qty) from t_order_details
+ifnull((select SUM(t_order_details.qty) 
+from t_order_details
 left join
 m_product on m_product.index_no=t_order_details.m_product 
 where 
-t_order_details.m_product=m.index_no 
-and
-date(t_order_details.date) between '2018-02-19' and '2018-02-21'),0) as total_qty,
-ifnull((select sum(t_order_details.value) from t_order_details
+t_order_details.m_product=m.index_no),0) as total_qty,
+ifnull((select sum(t_order_details.value) 
+from t_order_details
 left join
 m_product on m_product.index_no=t_order_details.m_product 
 where 
-t_order_details.m_product=m.index_no 
-and
-date(t_order_details.date) between '2018-02-19' and '2018-02-21'),0) as total_value
+t_order_details.m_product=m.index_no),0) as total_value
 from
 m_product m
 left join
@@ -25,5 +25,43 @@ left join
 t_order on t_order.index_no=t_order_details.t_order
 left join
 m_branch on m_branch.index_no = t_order.m_branch
+where 
+date(t_order_details.date) between '2018-02-19' and '2018-02-21'
+and ('null' = '1' or m_branch.index_no = 1)
+and ('null' = 'null' or m_item.`type` = null)
+and ('null' = 'null' or m_item.m_main_category = null)
+and ('null' = 'null' or m_item.m_sub_category = null)
 group by
 m.index_no
+
+
+///////////// invoice summery ///////////////
+
+select 
+i.invoice_no,
+CONCAT(t_order.order_type1, " (", t_order.order_type2,")") as order_type,
+t_order.total_sub as item_value,
+ifnull(i.service_charge_value,0) as service_charges,
+ifnull(i.delivery_charge_value,0) as delivery_charges,
+ifnull(i.vat_value,0) as VAT,
+ifnull(i.nbt_value,0) as NBT,  
+ifnull(t_order.total_tax,0) as total_tax,
+t_order.total_amount as gross_value,
+ifnull(i.discount_value,0) as discount,
+i.final_amount as net_value,
+(select sum(t_order.total_sub) from t_order) as total_item_value,
+ifnull((select sum(t_invoice.service_charge_value) from t_invoice),0) as total_serive_charge,
+ifnull((select sum(t_invoice.delivery_charge_value) from t_invoice),0) as total_delivery_charge,
+ifnull((select sum(t_invoice.vat_value) from t_invoice),0) as total_vat,
+ifnull((select sum(t_invoice.nbt_value) from t_invoice),0) as total_nbt,
+ifnull((select sum(t_order.total_tax) from t_order),0) as total_taxs,
+(select sum(t_order.total_amount) from t_order) as total_gross,
+ifnull((select sum(t_invoice.discount_value) from t_invoice),0) as total_discount,
+ifnull((select sum(t_invoice.final_amount) from t_invoice),0) as total_net
+ from t_invoice i
+ left join
+ t_order on t_order.index_no=i.t_order
+ where 
+date(i.date) between '2018-02-22' and '2018-02-22'
+and ('null' = '1' or t_order.m_branch = 1)
+group by i.index_no

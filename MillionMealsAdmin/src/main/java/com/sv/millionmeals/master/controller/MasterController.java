@@ -5,14 +5,7 @@
  */
 package com.sv.millionmeals.master.controller;
 
-import com.sv.millionmeals.master.model.MCategory;
-import com.sv.millionmeals.master.model.MCustomer;
-import com.sv.millionmeals.master.model.MItem;
-import com.sv.millionmeals.master.model.MMainCategory;
-import com.sv.millionmeals.master.model.MProduct;
-import com.sv.millionmeals.master.model.MSubCategory;
-import com.sv.millionmeals.master.model.MTable;
-import com.sv.millionmeals.master.model.MUnit;
+import com.sv.millionmeals.master.model.*;
 import com.sv.millionmeals.master.service.MasterService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -156,5 +149,10 @@ public class MasterController {
     @RequestMapping(value = "/delete-product/{indexNo}", method = RequestMethod.DELETE)
     public void deleteProduct(@PathVariable Integer indexNo){
         masterService.deleteProduct(indexNo);
+    }
+    // Get All branch
+    @RequestMapping(value = "/get-all-branch", method = RequestMethod.GET)
+    public List<MBranch> getAllBranch(){
+        return masterService.findAllBranch();
     }
 }

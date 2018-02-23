@@ -75,7 +75,7 @@ public class PrintService {
             //printRequestAttributeSet.add(new Destination(new java.net.URI("file:d:/output/report.ps")));
             //----------------------------------------------------
             PrintServiceAttributeSet printServiceAttributeSet = new HashPrintServiceAttributeSet();
-            printServiceAttributeSet.add(new PrinterName("EPSON TM-U220 Receipt", null));
+            printServiceAttributeSet.add(new PrinterName("EPSON TM-T82 Receipt", null));
 
             //--- Set print parameters
             exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);

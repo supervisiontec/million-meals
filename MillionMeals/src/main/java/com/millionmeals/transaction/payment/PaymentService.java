@@ -1,5 +1,7 @@
 package com.millionmeals.transaction.payment;
 
+import com.millionmeals.transaction.order.OrderRepository;
+import com.millionmeals.transaction.order.model.TOrder;
 import com.millionmeals.transaction.payment.model.TInvoice;
 import com.millionmeals.transaction.payment.model.TPayment;
 import com.millionmeals.transaction.payment.model.TPaymentDetails;
@@ -28,6 +30,9 @@ public class PaymentService {
     @Autowired
     private InvoiceRepository invoiceRepository;
 
+    @Autowired
+    private OrderRepository orderRepository;
+
 
     public TInvoice findOne(int index) {
         return invoiceRepository.findOne(index);
@@ -51,6 +56,9 @@ public class PaymentService {
 
         invoice.setInvoiceNo(invoiceNo);
         invoice.setDate(new Date());
+        TOrder order = orderRepository.findOne(invoice.gettOrder());
+        order.setStatus("complete");
+        orderRepository.save(order);
         invoiceRepository.save(invoice);
 
         return invoice;

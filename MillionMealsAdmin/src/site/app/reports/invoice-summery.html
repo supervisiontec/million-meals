@@ -1,0 +1,122 @@
+<div class="index-content-header">
+</div>
+<div class="index-content-body ">
+    <div class="col-xs-12 background-dark">
+        <div class="row" style="">
+            <div class="col-xs-12" style="flex: 0 0 auto; height: 75px; padding-right: 22px;margin-top: 10px">
+                <div class="col-xs-3">
+                    <label>From Date : *</label>
+                    <input type="date" class="form-control" ng-model="model.invoiceFromDate"/>
+                </div>
+                <div class="col-xs-3">
+                    <label>To Date : *</label>
+                    <input type="date" class="form-control" ng-model="model.invoiceToDate"/>
+                </div>
+                <div class="col-xs-3">
+                    <label>Branch : </label>
+                    <select class="form-control" ng-model="model.invoiceBranch">
+                        <option value="null"></option>
+                        <option ng-repeat="branch in model.branchList" value="{{branch.indexNo}}">{{branch.name}}</option>
+                    </select>
+                </div>
+                <div class="col-xs-3">
+                    <button style="margin-top: 24px" class="btn btn-info" ng-click="ui.searchInvoiceSummery()">Search</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 background-light">
+        <div class="row" style="display: flex; flex-flow: column;">
+            <div class="col-xs-12">
+                <table class="table-rounded">
+                    <col style="width: 10%">
+                    <col style="width: 20%">
+                    <col style="width: 13%">
+                    <col style="width: 18%">
+                    <col style="width: 16%">
+                    <col style="width: 7%">
+                    <col style="width: 7%">
+                    <col style="width: 13%">
+                    <col style="width: 13%">
+                    <col style="width: 10%">
+                    <col style="width: 13%">
+                    <thead class="background-dark">
+                    <tr>
+                        <th> <label>Inv No</label> </th>
+                        <th> <label>Order Type</label></th>
+                        <th> <label>Item Value</label></th>
+                        <th> <label>Service Chg</label></th>
+                        <th> <label>Delivery Chg</label></th>
+                        <th> <label>VAT</label></th>
+                        <th> <label>NBT</label></th>
+                        <th> <label>Total Tax</label></th>
+                        <th> <label>Gross Val</label></th>
+                        <th> <label>Discount</label></th>
+                        <th> <label>Net Value</label></th>
+                    </tr>
+                    </thead>
+                </table>
+                <div class="smart-scroll-y" style="height: calc(100vh - 227px);">
+                    <table class="table-rounded">
+                        <col style="width: 10%">
+                        <col style="width: 20%">
+                        <col style="width: 13%">
+                        <col style="width: 18%">
+                        <col style="width: 16%">
+                        <col style="width: 7%">
+                        <col style="width: 7%">
+                        <col style="width: 13%">
+                        <col style="width: 13%">
+                        <col style="width: 10%">
+                        <col style="width: 13%">
+                        <tbody>
+                        <tr ng-repeat="list in model.invoiceSummeryList">
+                            <td><label class="label label-default">{{list[0]|fixedLength:5}}</label></td>
+                            <td>{{list[1]}}</td>
+                            <td>{{list[2]}}</td>
+                            <td>{{list[3]}}</td>
+                            <td>{{list[4]}}</td>
+                            <td>{{list[5]}}</td>
+                            <td>{{list[6]}}</td>
+                            <td>{{list[7]}}</td>
+                            <td>{{list[8]}}</td>
+                            <td>{{list[9]}}</td>
+                            <td>{{list[10]}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <table class="table-rounded">
+            <col style="width: 10%">
+            <col style="width: 20%">
+            <col style="width: 13%">
+            <col style="width: 18%">
+            <col style="width: 16%">
+            <col style="width: 7%">
+            <col style="width: 7%">
+            <col style="width: 13%">
+            <col style="width: 13%">
+            <col style="width: 10%">
+            <col style="width: 13%">
+            <thead class="background-dark">
+            <tr>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+                <th>{{invoicesummery.totalItemValue}}</th>
+                <th>{{invoicesummery.totalServiceCharge}}</th>
+                <th>{{invoicesummery.totalDeliveryCharge}}</th>
+                <th>{{invoicesummery.totalVat}}</th>
+                <th>{{invoicesummery.totalNbt}}</th>
+                <th>{{invoicesummery.totalTax}}</th>
+                <th>{{invoicesummery.totalGross}}</th>
+                <th>{{invoicesummery.totalDiscount}}</th>
+                <th>{{invoicesummery.totalNet}}</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+

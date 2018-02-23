@@ -5,22 +5,8 @@
  */
 package com.sv.millionmeals.master.service;
 
-import com.sv.millionmeals.master.model.MCategory;
-import com.sv.millionmeals.master.model.MCustomer;
-import com.sv.millionmeals.master.model.MItem;
-import com.sv.millionmeals.master.model.MMainCategory;
-import com.sv.millionmeals.master.model.MProduct;
-import com.sv.millionmeals.master.model.MSubCategory;
-import com.sv.millionmeals.master.model.MTable;
-import com.sv.millionmeals.master.model.MUnit;
-import com.sv.millionmeals.master.repository.CategoryRepository;
-import com.sv.millionmeals.master.repository.CustomerRepository;
-import com.sv.millionmeals.master.repository.ItemRepository;
-import com.sv.millionmeals.master.repository.MainCategoryRepository;
-import com.sv.millionmeals.master.repository.ProductRepository;
-import com.sv.millionmeals.master.repository.SubCategoryRepository;
-import com.sv.millionmeals.master.repository.TableRepository;
-import com.sv.millionmeals.master.repository.UnitRepository;
+import com.sv.millionmeals.master.model.*;
+import com.sv.millionmeals.master.repository.*;
 import com.sv.millionmeals.master.system.exception.DuplicateEntityException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +38,8 @@ public class MasterService {
     private ItemRepository itemRepository;
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private BranchRepository branchRepository;
 
     public List<MCustomer> findAllCustomer() {
         return customerRepository.findAll();
@@ -97,13 +85,7 @@ public class MasterService {
     }
 
     public MSubCategory saveSubCategory(MSubCategory subCategory) {
-        MSubCategory findByName = subCategoryRepository.findByName(subCategory.getName());
-
-        if (findByName == null) {
             return subCategoryRepository.save(subCategory);
-        } else {
-            throw new DuplicateEntityException("Duplicate Sub Category");
-        }
     }
 
     public void deleteSubCategory(Integer indexNo) {
@@ -119,14 +101,7 @@ public class MasterService {
     }
 
     public MMainCategory saveMainCategory(MMainCategory mainCategory) {
-        MMainCategory findByName = mainCategoryRepository.findByName(mainCategory.getName());
-
-        if (findByName == null) {
             return mainCategoryRepository.save(mainCategory);
-        } else {
-            throw new DuplicateEntityException("Duplicate Main Category");
-        }
-
     }
 
     public void deleteMainCategory(Integer indexNo) {
@@ -142,13 +117,7 @@ public class MasterService {
     }
 
     public MTable saveTable(MTable table) {
-        MTable findByName = tableRepository.findByName(table.getName());
-        
-        if (findByName == null) {
-        return tableRepository. save(table);
-        } else {
-            throw new DuplicateEntityException("Duplicate Table");
-        }
+        return tableRepository.save(table);
     }
 
     public void deleteTable(Integer indexNo) {
@@ -164,13 +133,7 @@ public class MasterService {
     }
 
     public MUnit saveUnit(MUnit unit) {
-        MUnit findByName = unitRepository.findByName(unit.getName());
-
-        if (findByName == null) {
             return unitRepository.save(unit);
-        } else {
-            throw new DuplicateEntityException("Duplicate Unit");
-        }
     }
 
     public void deleteUnit(Integer indexNo) {
@@ -186,13 +149,7 @@ public class MasterService {
     }
 
     public MItem saveItem(MItem item) {
-        MItem findByName = itemRepository.findByName(item.getName());
-
-        if (findByName == null) {
             return itemRepository.save(item);
-        } else {
-            throw new DuplicateEntityException("Duplicate Item");
-        }
     }
 
     public void deleteItem(Integer indexNo) {
@@ -208,13 +165,7 @@ public class MasterService {
     }
 
     public MProduct saveProduct(MProduct product) {
-        MProduct findByName = productRepository.findByItemAndUnit(product.getItem(), product.getUnit());
-
-        if (findByName == null) {
             return productRepository.save(product);
-        } else {
-            throw new DuplicateEntityException("Duplicate Item And Unit");
-        }
     }
 
     public void deleteProduct(Integer indexNo) {
@@ -223,5 +174,9 @@ public class MasterService {
         } catch (Exception e) {
             throw new RuntimeException("Cannot delete this product because there are details in other transaction");
         }
+    }
+
+    public List<MBranch> findAllBranch() {
+        return branchRepository.findAll();
     }
 }

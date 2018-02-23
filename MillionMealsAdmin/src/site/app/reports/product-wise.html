@@ -1,0 +1,108 @@
+<div class="index-content-header">
+</div>
+<div class="index-content-body ">
+    <div class="col-xs-12 background-dark">
+        <div class="row" style="">
+            <div class="col-xs-12" style="flex: 0 0 auto; height: 127px; padding-right: 22px;margin-top: 10px">
+                <div class="col-xs-3">
+                    <label>From Date : *</label>
+                    <input type="date" class="form-control" ng-model="model.fromDate"/>
+                </div>
+                <div class="col-xs-3">
+                    <label>To Date : *</label>
+                    <input type="date" class="form-control" ng-model="model.toDate"/>
+                </div>
+                <div class="col-xs-3">
+                    <label>Branch : </label>
+                    <select class="form-control" ng-model="model.branch">
+                        <option value="null"></option>
+                        <option ng-repeat="branch in model.branchList" value="{{branch.indexNo}}">{{branch.name}}</option>
+                    </select>
+                </div>
+                <div class="col-xs-3">
+                    <label>Main Category : </label>
+                    <select class="form-control" ng-model="model.mainCategory">
+                        <option value="null"></option>
+                        <option ng-repeat="category in model.mainCategoryList" value="{{category.indexNo}}">{{category.name}}</option>
+                    </select>
+                </div>
+                <div class="col-xs-3">
+                    <label>Sub Category : </label>
+                    <select class="form-control" ng-model="model.subCategory">
+                        <option value="null"></option>
+                        <option ng-repeat="category in model.subCategoryList" value="{{category.indexNo}}">{{category.name}}</option>
+                    </select>
+                </div>
+                <div class="col-xs-3">
+                    <label>Stock Type : </label>
+                    <select class="form-control" ng-model="model.type">
+                        <option value="null"></option>
+                        <option value="stock">Stock</option>
+                        <option value="non_stock">Non Stock</option>
+                    </select>
+                </div>
+                <div class="col-xs-3">
+                    <button style="margin-top: 24px" class="btn btn-info" ng-click="ui.SearchProductWise()">Search</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 background-light">
+        <div class="row" style="display: flex; flex-flow: column;">
+            <div class="col-xs-12">
+                <table class="table-rounded">
+                    <col style="width: 10%">
+                    <col style="width: 30%">
+                    <col style="width: 15%">
+                    <col style="width: 15%">
+                    <col style="width: 15%">
+                    <thead class="background-dark">
+                    <tr>
+                        <th> <label>Item Code</label> </th>
+                        <th> <label>Item Name</label></th>
+                        <th> <label>Unit</label></th>
+                        <th> <label>Total Qty</label></th>
+                        <th> <label>Total Value</label></th>
+                    </tr>
+                    </thead>
+                </table>
+                <div class="smart-scroll-y" style="height: calc(100vh - 275px);">
+                    <table class="table-rounded">
+                        <col style="width: 10%">
+                        <col style="width: 30%">
+                        <col style="width: 15%">
+                        <col style="width: 15%">
+                        <col style="width: 15%">
+                        <tbody>
+                        <tr ng-repeat="list in model.productWiseList">
+                            <td><label class="label label-default">{{list[0]|fixedLength:5}}</label></td>
+                            <td>{{list[1]}}</td>
+                            <td>{{list[2]}}</td>
+                            <td>{{list[3]}}</td>
+                            <td>{{list[4] | number:2}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <table class="table-rounded">
+            <col style="width: 10%">
+            <col style="width: 30%">
+            <col style="width: 15%">
+            <col style="width: 15%">
+            <col style="width: 15%">
+            <thead class="background-dark">
+            <tr>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+                <th>Total Qty &nbsp <label class="label label-default">{{totalQty}}</label></th>
+                <th>Total Value &nbsp <label class="label label-default">{{totalValue |number:2}}</label></th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+

@@ -17,13 +17,14 @@
                             <td><input class="form-control" ng-model="model.item.mainCategory" uib-typeahead="mainCategory.indexNo as (mainCategory.indexNo + ' - ' + mainCategory.name) for mainCategory in model.mainCategoryList |filter:$viewValue|limitTo:10" typeahead-input-formatter="ui.mainCategoryLable($model)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"> </td>
                         </tr>
                         <tr>
-                            <td><label>Category :</label></td>
-                            <td><input class="form-control" ng-model="model.item.category" uib-typeahead="category.indexNo as (category.indexNo + ' - ' + category.name) for category in model.categoryList |filter:$viewValue|limitTo:10" typeahead-input-formatter="ui.categoryLable($model)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"> </td>
-                        </tr>
-                        <tr>
                             <td><label>Sub Category :</label></td>
                             <td><input class="form-control" ng-model="model.item.subCategory" uib-typeahead="subCategory.indexNo as (subCategory.indexNo + ' - ' + subCategory.name) for subCategory in model.subCategoryList |filter:$viewValue|limitTo:10" typeahead-input-formatter="ui.subCategoryLable($model)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"> </td>
                         </tr>
+                        <tr>
+                            <td><label>Category :</label></td>
+                            <td><input class="form-control" ng-model="model.item.category" uib-typeahead="category.indexNo as (category.indexNo + ' - ' + category.name) for category in model.categoryList |filter:$viewValue|limitTo:10" typeahead-input-formatter="ui.categoryLable($model)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"> </td>
+                        </tr>
+
                         <tr>
                             <td><label>Type :</label></td>
                             <td>

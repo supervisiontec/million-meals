@@ -357,6 +357,7 @@
             $scope.http.searchByMobileNo = function (mobile) {
                 orderFactory.searchByMobileNo(mobile, function (data) {
                     if (data) {
+                        $scope.mobile = data.mobile;
                         $scope.order.mCustomer = data.indexNo;
                         $scope.customerName = data.name;
                     } else {
@@ -385,7 +386,7 @@
 
             $scope.ui.selectDineIn = function (type) {
                 $scope.ui.mode = 'dineIn';
-                $scope.order.orderType2 = type;
+                // $scope.order.orderType2 = type;
                 $scope.selectedButton2 = type;
                 $scope.style.selectItemHeight = '389px';
                 $scope.style.MenuItemHeight = '218px';
@@ -454,7 +455,7 @@
                 angular.forEach($scope.productList, function (val) {
                     $scope.tempOderDetails = {};
                     if (val.selectQty) {
-                        $scope.tempOderDetails.mProduct = $scope.mProduct;
+                        $scope.tempOderDetails.mProduct = val.indexNo;
                         $scope.tempOderDetails.itemType = $scope.type;
                         $scope.tempOderDetails.itemName = $scope.itemName;
                         $scope.tempOderDetails.unit = val.mUnit.name;
@@ -540,7 +541,7 @@
                     $scope.payment.finalAmount = $scope.order.totalAmount - value;
 
                     var val = value / $scope.order.totalAmount * 100;
-                    $scope.payment.discountRate = val;
+                    $scope.payment.discountRate = Math.round(val);
                 }
 
                 if ($scope.payAmount != null) {
@@ -691,7 +692,7 @@
             ////////////// uib pop up ///////////////////
 
             $scope.ui.selectItem = function (item) {
-                $scope.mProduct = item.indexNo;
+                // $scope.mProduct = item.indexNo;
                 $scope.type = item.type;
                 $scope.itemName = item.name;
 
@@ -744,6 +745,7 @@
 
 
             $scope.ui.init = function () {
+                console.log("2018-02-23 - updated")
                 $scope.selectedButton = 'walk_in';
                 $scope.selectedButton2 = 'take_away';
                 $scope.order.orderType1 = 'walk_in';
@@ -755,7 +757,7 @@
                 $scope.style.MainItemHeight = '106px';
                 $scope.style.MenuItemHeight = '152px';
                 $scope.ui.selectMainCategory(1);
-                $scope.mobile = '111';
+
                 $scope.ui.searchByMobile(111);
 
                 //http
