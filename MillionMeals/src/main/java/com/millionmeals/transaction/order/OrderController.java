@@ -1,11 +1,9 @@
 package com.millionmeals.transaction.order;
 
-import com.millionmeals.transaction.master.model.MCustomer;
-import com.millionmeals.transaction.master.model.MItem;
-import com.millionmeals.transaction.master.model.MMainCategory;
-import com.millionmeals.transaction.master.model.MProduct;
+import com.millionmeals.transaction.master.model.*;
 import com.millionmeals.transaction.order.model.TOrder;
 import com.millionmeals.transaction.order.model.TOrderDetails;
+import com.millionmeals.transaction.order.model.TTableReceive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -36,9 +34,9 @@ public class OrderController {
        return orderService.getAllOrder();
     }
 
-    @RequestMapping(path = "/save-order/{index}",method = RequestMethod.POST)
-    public TOrder saveOrder (@RequestBody TOrder order,@PathVariable("index") int index){
-        return orderService.saveOrder(order,index);
+    @RequestMapping(path = "/save-order/{index}/{tableIndex}",method = RequestMethod.POST)
+    public TOrder saveOrder (@RequestBody TOrder order,@PathVariable("index") int index,@PathVariable("tableIndex") int tableIndex){
+        return orderService.saveOrder(order,index,tableIndex);
     }
 
     @RequestMapping(path = "/update-order/{index}/{subTotal}/{totalAmount}",method = RequestMethod.POST)
@@ -67,19 +65,30 @@ public class OrderController {
         return orderService.findBySubCategory(index);
     }
 
+    @RequestMapping(path = "/all-tables",method = RequestMethod.GET)
+    public List<MTable> findAllTables() {
+     return orderService.findAllTbales();
+    }
+
     @RequestMapping(path = "/find-product/{index}",method = RequestMethod.GET)
     public List<MProduct> findAllProduct(@PathVariable("index") int index) {
         return orderService.findProductByItem(index);
     }
 
+
     @RequestMapping(path = "/find-employee-mobile/{mobile}",method = RequestMethod.GET)
-    public MCustomer findAllProduct(@PathVariable("mobile") String mobile) {
+    public MCustomer findEmployeeByMobileNo(@PathVariable("mobile") String mobile) {
         return orderService.findByTelNo(mobile);
     }
 
     @RequestMapping(path = "/save-customer",method = RequestMethod.POST)
     public MCustomer saveCustomer(@RequestBody MCustomer customer) {
         return orderService.saveCustomer(customer);
+    }
+
+    @RequestMapping(path = "/find-tables-recieve/{index}",method = RequestMethod.GET)
+    public TTableReceive findTableReciveDetails(@PathVariable("index") int index) {
+        return orderService.findTableRecievedetails(index);
     }
 
     @RequestMapping(value = "/food-image/{path}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)

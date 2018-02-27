@@ -45,6 +45,9 @@ public class MItem implements Serializable {
     
     @Column(name = "m_category")
     private Integer category;
+
+    @Column(name = "code")
+    private String code;
  
 
     public MItem() {
@@ -102,4 +105,11 @@ public class MItem implements Serializable {
         this.name = name;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 }

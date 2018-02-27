@@ -4,6 +4,7 @@ import com.millionmeals.transaction.master.*;
 import com.millionmeals.transaction.master.model.*;
 import com.millionmeals.transaction.order.model.TOrder;
 import com.millionmeals.transaction.order.model.TOrderDetails;
+import com.millionmeals.transaction.order.model.TTableReceive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -45,13 +46,19 @@ public class OrderService {
     @Autowired
     private CustomerRepository customerRepository;
 
+    @Autowired
+    private TableRepository tableRepository;
+
+    @Autowired
+    private TableRecieveRepository tableRecieveRepository;
+
 
     public List<TOrder> getAllOrder() {
         return orderRepository.findAll();
     }
 
     @Transactional
-    public TOrder saveOrder(TOrder order, int index) {
+    public TOrder saveOrder(TOrder order, int index,int tableIndex) {
         if (order.gettOrderDetailssByIndexNo().size() > 0) {
             int branch = 1;
 
@@ -71,6 +78,7 @@ public class OrderService {
                     details.setDate(new Date());
                     orderDetailsRepository.save(details);
                 }
+
                 return findone;
             } else {
                 //save new order
@@ -83,7 +91,11 @@ public class OrderService {
                     details.setDate(new Date());
                     orderDetailsRepository.save(details);
                 }
-
+                TTableReceive tTableReceive = new TTableReceive();
+                tTableReceive.setmTable(tableIndex);
+                tTableReceive.settOrder(saveOrder);
+                tTableReceive.setStatus(true);
+                tableRecieveRepository.save(tTableReceive);
                 return saveOrder;
             }
         } else {
@@ -154,5 +166,14 @@ public class OrderService {
         } else {
             return customerRepository.save(customer);
         }
+    }
+
+    public List<MTable> findAllTbales() {
+        int branch = 1;
+        return tableRepository.findBymBranch(branch);
+    }
+
+    public TTableReceive findTableRecievedetails(int tableIndex){
+       return tableRecieveRepository.findByStatusAndMTable(false,tableIndex);
     }
 }

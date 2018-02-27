@@ -13,6 +13,10 @@
                             <td><input class="form-control" id="name" ng-model="model.item.name" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"> </td>
                         </tr>
                         <tr>
+                            <td><label>Code :</label></td>
+                            <td><input class="form-control" id="code" ng-model="model.item.code" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"> </td>
+                        </tr>
+                        <tr>
                             <td><label>Main Category :</label></td>
                             <td><input class="form-control" ng-model="model.item.mainCategory" uib-typeahead="mainCategory.indexNo as (mainCategory.indexNo + ' - ' + mainCategory.name) for mainCategory in model.mainCategoryList |filter:$viewValue|limitTo:10" typeahead-input-formatter="ui.mainCategoryLable($model)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"> </td>
                         </tr>
@@ -55,7 +59,7 @@
                     <col style="width: 10%">
                     <thead class="background-dark">
                         <tr>
-                            <th> <label>#</label> </th>
+                            <th> <label>Code</label> </th>
                             <th> <label>Name</label></th>
                             <th> <label>M Category</label></th>
                             <th> <label>Category</label></th>
@@ -76,7 +80,7 @@
                     <col style="width: 10%">
                         <tbody>
                             <tr ng-repeat="item in model.itemList| filter:model.search.name | orderBy:'indexNo'">
-                                <td><label class="label label-default">{{item.indexNo|fixedLength:5}}</label></td>
+                                <td><label class="label label-default">{{item.code}}</label></td>
                                 <td>{{item.name}}</td>
                                 <td>{{ui.mainCategoryLable(item.mainCategory)}}</td>
                                 <td>{{ui.categoryLable(item.category)}}</td>

@@ -1,150 +1,7 @@
 (function () {
-
-    angular.module("appModule")
-        .factory("orderFactory", function ($http, systemConfig) {
-            var factory = {};
-
-            //find all main category
-            factory.findAllMainCategory = function (callback) {
-                var url = systemConfig.apiUrl + "/api/restaurant/order/all-maincategory";
-                $http.get(url)
-                    .success(function (data, status, headers) {
-                        callback(data);
-                    })
-                    .error(function (data, status, headers) {
-
-                    });
-            };
-
-            //find all sub category
-            factory.findAllSubCategory = function (index, callback) {
-                var url = systemConfig.apiUrl + "/api/restaurant/order/all-subcategory/" + index;
-                $http.get(url)
-                    .success(function (data, status, headers) {
-                        callback(data);
-                    })
-                    .error(function (data, status, headers) {
-
-                    });
-            };
-
-            //find all Items
-            factory.findAllItems = function (index, callback) {
-                var url = systemConfig.apiUrl + "/api/restaurant/order/all-items/" + index;
-                $http.get(url)
-                    .success(function (data, status, headers) {
-                        callback(data);
-                    })
-                    .error(function (data, status, headers) {
-
-                    });
-            };
-            //find products
-            factory.findProductByItem = function (index, callback) {
-                var url = systemConfig.apiUrl + "/api/restaurant/order/find-product/" + index;
-                $http.get(url)
-                    .success(function (data, status, headers) {
-                        callback(data);
-                    })
-                    .error(function (data, status, headers) {
-
-                    });
-            };
-            //find image
-            // factory.findImage = function (path, callback) {
-            //     var url = systemConfig.apiUrl + "/api/restaurant/order/food-image/" + path;
-            //     $http.get(url)
-            //         .success(function (data, status, headers) {
-            //             callback(data);
-            //         })
-            //         .error(function (data, status, headers) {
-            //
-            //         });
-            // };
-            //save order
-            factory.saveOrder = function (order, index, callback) {
-                var url = systemConfig.apiUrl + "/api/restaurant/order/save-order/" + index;
-                $http.post(url, order)
-                    .success(function (data, status, headers) {
-                        callback(data);
-                    })
-                    .error(function (data, status, headers) {
-
-                    });
-            };
-            //update order details
-            factory.updateOrder = function (item, index, subTotal, totalAmount, callback) {
-                var url = systemConfig.apiUrl + "/api/restaurant/order/update-order/" + index + "/" + subTotal + "/" + totalAmount;
-                $http.post(url, item)
-                    .success(function (data, status, headers) {
-                        callback(data);
-                    })
-                    .error(function (data, status, headers) {
-
-                    });
-            };
-            //delete order details
-            factory.deleteOrder = function (index, index2, subTotal, totalAmount, callback) {
-                var url = systemConfig.apiUrl + "/api/restaurant/order/delete-order/" + index + "/" + index2 + "/" + subTotal + "/" + totalAmount;
-                $http.delete(url)
-                    .success(function (data, status, headers) {
-                        callback(data);
-                    })
-                    .error(function (data, status, headers) {
-
-                    });
-            };
-            //search by mobile no
-            factory.searchByMobileNo = function (mobile, callback) {
-                var url = systemConfig.apiUrl + "/api/restaurant/order/find-employee-mobile/" + mobile;
-                $http.get(url)
-                    .success(function (data, status, headers) {
-                        callback(data);
-                    })
-                    .error(function (data, status, headers) {
-
-                    });
-            };
-            //print inovice
-            factory.printInvoice = function (date,invoiceNo, callback) {
-                var url = systemConfig.apiUrl + "/api/care-point/print-service/print-invoice/" + date +"/"+invoiceNo;
-                $http.get(url)
-                    .success(function (data, status, headers) {
-                        callback(data);
-                    })
-                    .error(function (data, status, headers) {
-
-                    });
-            };
-            //completeOrder
-            factory.completeOrder = function (payment, callback) {
-                var url = systemConfig.apiUrl + "/api/restaurant/payment/save";
-                $http.post(url, payment)
-                    .success(function (data, status, headers) {
-                        callback(data);
-                    })
-                    .error(function (data, status, headers) {
-
-                    });
-            };
-            //save customer
-            factory.saveCustomer = function (customer, callback) {
-                var url = systemConfig.apiUrl + "/api/restaurant/order/save-customer";
-                $http.post(url, customer)
-                    .success(function (data, status, headers) {
-                        callback(data);
-                    })
-                    .error(function (data, status, headers) {
-
-                    });
-            };
-
-            return factory;
-        });
-
     //controller
     angular.module("appModule")
-        .controller("orderController", function ($scope, orderFactory,$filter, $uibModal, $uibModalStack, optionPane, Notification, systemConfig) {
+        .controller("orderController", function ($scope, orderFactory, $filter, $uibModal, $uibModalStack, optionPane, Notification, systemConfig) {
             //data models
             $scope.model = {};
             $scope.http = {};
@@ -319,7 +176,7 @@
             };
 
             $scope.http.saveOrder = function () {
-                orderFactory.saveOrder(JSON.stringify($scope.order), parseInt($scope.orderIndex), function (data) {
+                orderFactory.saveOrder(JSON.stringify($scope.order), parseInt($scope.orderIndex), $scope.ui.selectedTableIndex, function (data) {
                     if (data) {
                         $scope.order.tOrderDetailssByIndexNo = [];
                         $scope.orderIndex = data.indexNo;
@@ -374,10 +231,24 @@
                         $uibModalStack.dismissAll();
                         $scope.resetModel();
                         optionPane.successMessage("", "ORDER PAYMENT SUCCESS");
-                        orderFactory.printInvoice($filter('date')(data.date,"yyyy-MM-dd"),data.invoiceNo,function (data) {
+                        orderFactory.printInvoice($filter('date')(data.date, "yyyy-MM-dd"), data.invoiceNo, function (data) {
 
                         });
                     }
+                });
+            };
+
+            $scope.http.findTableOrderDetails = function (tableIndex) {
+                orderFactory.findTableOrderDetails(tableIndex, function (data) {
+                    console.log(data)
+                    if(data){
+                        $scope.order.tOrderDetailssByIndexNo = [];
+                        $scope.orderIndex = data.tOrder.indexNo;
+                        $scope.selectedItemList = data.tOrder.tOrderDetailssByIndexNo;
+                    }else {
+                        $scope.selectedItemList = [];
+                    }
+
                 });
             };
 
@@ -424,8 +295,14 @@
                     $scope.http.searchByMobileNo(mobile);
                 }
             };
+
             $scope.ui.searchByMobile = function (mobile) {
                 $scope.http.searchByMobileNo(mobile);
+            };
+
+            $scope.ui.selectTable = function (table) {
+                $scope.ui.selectedTableIndex = table.indexNo;
+                $scope.http.findTableOrderDetails(table.indexNo);
             };
 
             //new customer save
@@ -450,8 +327,23 @@
             /////////////////order funtions //////////////////////////
 
             $scope.ui.addToOrder = function () {
-                if($scope.order.mCustomer){
+                if ($scope.ui.mode === 'dineIn') {
+                    if ($scope.ui.selectedTableIndex) {
+                        $scope.ui.addtoOrderCalc();
+                    } else {
+                        Notification.error("Please Select a Table");
+                    }
+                } else if ($scope.ui.mode === 'takeAway') {
+                    if ($scope.order.mCustomer) {
+                        $scope.ui.addtoOrderCalc();
+                    } else {
+                        Notification.error("Please save customer first..");
+                    }
+                }
 
+            };
+
+            $scope.ui.addtoOrderCalc = function () {
                 angular.forEach($scope.productList, function (val) {
                     $scope.tempOderDetails = {};
                     if (val.selectQty) {
@@ -484,9 +376,6 @@
 
                 $scope.http.saveOrder();
                 $uibModalStack.dismissAll();
-                }else {
-                    Notification.error("Please save customer first..");
-                }
 
             };
 
@@ -689,6 +578,7 @@
                 }
             };
 
+
             ////////////// uib pop up ///////////////////
 
             $scope.ui.selectItem = function (item) {
@@ -760,9 +650,14 @@
 
                 $scope.ui.searchByMobile(111);
 
-                //http
+                //load main category
                 orderFactory.findAllMainCategory(function (data) {
                     $scope.mainCategoryList = data;
+                });
+
+                //load tables
+                orderFactory.findAllTables(function (data) {
+                    $scope.tableList = data;
                 });
             };
 

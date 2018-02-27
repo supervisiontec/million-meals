@@ -13,6 +13,7 @@ public class MItem {
     private MSubCategory mSubCategory;
     private Integer mMainCategory;
     private String name;
+    private String code;
     private String type;
     private String image;
 
@@ -87,4 +88,13 @@ public class MItem {
         this.image = image;
     }
 
+    @Basic
+    @Column(name = "code")
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 }
