@@ -25,6 +25,10 @@
                 .when("/", {
                     redirectTo: "/main"
                 })
+                .when("/login", {
+                    templateUrl: "app/system/login/login.html",
+                    controller: "LoginController"
+                })
                 .when("/main", {
                     templateUrl: "app/main/main.html",
                     controller: "mainController"

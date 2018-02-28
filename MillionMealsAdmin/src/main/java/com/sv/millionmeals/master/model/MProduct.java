@@ -33,9 +33,6 @@ public class MProduct implements Serializable {
     @Column(name = "price")
     private BigDecimal price;
     
-    @Column(name = "qty")
-    private Integer qty;
-    
     @Column(name = "m_item")
     private Integer item;
 
@@ -63,14 +60,6 @@ public class MProduct implements Serializable {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
-    }
-
-    public Integer getQty() {
-        return qty;
-    }
-
-    public void setQty(Integer qty) {
-        this.qty = qty;
     }
 
     public Integer getItem() {
