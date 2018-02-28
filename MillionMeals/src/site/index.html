@@ -78,7 +78,7 @@
         <td><span class="text-primary text-capitalize text-bold">{{loginUser}}</span>
         <table  style="width: auto; float: right;">
         <tbody>
-        <tr>
+        <tr style="background-color : white">
         <td><a class="btn btn-primary"><span class="glyphicon glyphicon-bell"></span></a></td>
         <td><a class="btn btn-primary"><span class="glyphicon glyphicon-envelope"></span></a></td>
         <td><a class="btn btn-primary" ng-click="logout();"><span class="glyphicon glyphicon-user"></span></a></td>
@@ -88,13 +88,13 @@
         </div>
     </div>
 
-    <div>
-        <ul class="nav nav-tabs" ng-show="homepageUrls.length && isHomepage()">
-            <li ng-repeat="url in homepageUrls">
-                <a href="{{url.url}}">{{url.name}}</a>
-            </li>
-        </ul>
-    </div>
+    <!--<div>-->
+        <!--<ul class="nav nav-tabs" ng-show="homepageUrls.length && isHomepage()">-->
+            <!--<li ng-repeat="url in homepageUrls">-->
+                <!--<a href="{{url.url}}">{{url.name}}</a>-->
+            <!--</li>-->
+        <!--</ul>-->
+    <!--</div>-->
 
 
     <div class="index-content" ng-view>

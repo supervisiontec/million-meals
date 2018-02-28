@@ -5,6 +5,7 @@ import com.millionmeals.transaction.order.model.TOrder;
 import com.millionmeals.transaction.payment.model.TInvoice;
 import com.millionmeals.transaction.payment.model.TPayment;
 import com.millionmeals.transaction.payment.model.TPaymentDetails;
+import com.millionmeals.zutil.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -40,12 +41,10 @@ public class PaymentService {
 
     @Transactional
     public TInvoice savePayment(TInvoice invoice) {
-        int  branch = 1;
-
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
 
-       int invoiceNo = paymentRepository.findLastInvoiceNoByDate(dateFormat.format(date),branch);
+       int invoiceNo = paymentRepository.findLastInvoiceNoByDate(dateFormat.format(date), SecurityUtil.getCurrentUser().getBranch());
 
         invoice.gettPaymentByIndexNo().setDate(new Date());
         invoice.gettPaymentByIndexNo().settInvoice(invoice);

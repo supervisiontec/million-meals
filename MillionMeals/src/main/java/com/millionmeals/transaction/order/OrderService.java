@@ -5,6 +5,7 @@ import com.millionmeals.transaction.master.model.*;
 import com.millionmeals.transaction.order.model.TOrder;
 import com.millionmeals.transaction.order.model.TOrderDetails;
 import com.millionmeals.transaction.order.model.TTableReceive;
+import com.millionmeals.zutil.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -22,8 +23,6 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 public class OrderService {
-
-    private static int branch = 1;
 
     @Autowired
     private OrderRepository orderRepository;
@@ -60,12 +59,10 @@ public class OrderService {
     @Transactional
     public TOrder saveOrder(TOrder order, int index,int tableIndex) {
         if (order.gettOrderDetailssByIndexNo().size() > 0) {
-            int branch = 1;
-
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date date = new Date();
             //get last order no
-            int lastOrderNo = orderRepository.findLastOrderNoByDate(dateFormat.format(date), branch);
+            int lastOrderNo = orderRepository.findLastOrderNoByDate(dateFormat.format(date),SecurityUtil.getCurrentUser().getBranch());
 
             //update existing order
             TOrder findone = orderRepository.findOne(index);
@@ -169,8 +166,7 @@ public class OrderService {
     }
 
     public List<MTable> findAllTbales() {
-        int branch = 1;
-        return tableRepository.findBymBranch(branch);
+        return tableRepository.findBymBranch(SecurityUtil.getCurrentUser().getBranch());
     }
 
     public TTableReceive findTableRecievedetails(int tableIndex){
