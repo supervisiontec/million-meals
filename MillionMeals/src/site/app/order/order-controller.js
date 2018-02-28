@@ -300,6 +300,11 @@
                 $scope.http.searchByMobileNo(mobile);
             };
 
+            $scope.ui.searchItemByCode = function (code) {
+                //TODO
+                $scope.http.searchByItemCode(code);
+            };
+
             $scope.ui.selectTable = function (table) {
                 $scope.ui.selectedTableIndex = table.indexNo;
                 $scope.http.findTableOrderDetails(table.indexNo);
@@ -307,7 +312,6 @@
 
             //new customer save
             $scope.ui.saveCustomer = function () {
-
                 if ($scope.customerName !== "" && $scope.mobile !== "") {
                     if ($scope.customerName !== null && $scope.mobile !== null) {
                         $scope.customer.name = $scope.customerName;
@@ -320,7 +324,6 @@
                 } else {
                     Notification.error("Customer Details Empty...");
                 }
-
             };
 
 

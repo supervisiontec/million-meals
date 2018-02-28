@@ -23,6 +23,10 @@
                 .when("/", {
                     redirectTo: "/order"
                 })
+                .when("/login", {
+                    templateUrl: "app/system/login/login.html",
+                    controller: "LoginController"
+                })
                 .when("/order", {
                     templateUrl: "app/order/order.html",
                     controller: "orderController"

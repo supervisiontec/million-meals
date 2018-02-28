@@ -69,6 +69,10 @@
                     templateUrl: "app/reports/invoice-summery.html",
                     controller: "reportController"
                 })
+                .when("/user-privilege", {
+                    templateUrl: "app/master/user-privilege/user-privilege.html",
+                    controller: "userPrivilegeController"
+                })
                 .otherwise({
                     redirectTo: "/"
                 });

@@ -155,4 +155,21 @@ public class MasterController {
     public List<MBranch> getAllBranch(){
         return masterService.findAllBranch();
     }
+
+    // Get User Privileges by user type
+    @RequestMapping(value = "/get-all-privileges/{index}", method = RequestMethod.GET)
+    public List<MUserPrivilege> getAllUserPrivileges(@PathVariable("index") Integer index){
+        return masterService.getAllUserPrivileges(index);
+    }
+
+    // user approvel
+    @RequestMapping(value = "/user-approvel/{index}/{status}", method = RequestMethod.POST)
+    public Boolean userApprovel(@PathVariable("index") Integer index,@PathVariable("status") Boolean status){
+        return masterService.userApprovel(index,status);
+    }
+    // Get All User Types
+    @RequestMapping(value = "/get-all-usertypes", method = RequestMethod.GET)
+    public List<MUserType> getAllUserType(){
+        return masterService.getAllUserType();
+    }
 }

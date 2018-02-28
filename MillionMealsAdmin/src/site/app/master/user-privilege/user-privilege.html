@@ -1,0 +1,48 @@
+<div class="index-content-header">
+</div>
+<div class="index-content-body ">
+    <div class="col-xs-12 background-dark">
+            <div class="col-xs-4">
+                <label>User Type</label>
+                <select ng-model="model.userType" class="form-control" id="no" ng-change="ui.findPrivilegeByUserType(model.userType)">
+                    <option ng-repeat="type in model.userTypeList" value="{{type.indexNo}}">{{type.name}}</option>
+                </select>
+            </div>
+    </div>
+    <div class="col-xs-12 background-light">
+        <div class="row" style="display: flex; flex-flow: column;">
+            <div class="col-xs-12">
+                <table class="table-rounded">
+                    <col style="width: 15%">
+                    <col style="width: 20%">
+                    <col style="width: 20%">
+                    <thead class="background-dark">
+                    <tr>
+                        <th> <label>#</label> </th>
+                        <th> <label>Funtion Name</label></th>
+                        <th><label>approvel</label></th>
+                    </tr>
+                    </thead>
+                </table>
+                <div class="smart-scroll-y" style="height: calc(100vh - 275px);">
+                    <table class="table-rounded">
+                        <col style="width: 15%">
+                        <col style="width: 20%">
+                        <col style="width: 20%">
+                        <tbody>
+                        <tr ng-repeat="privilege in model.privilegesList">
+                            <td><label class="label label-default">{{$index+1|fixedLength:5}}</label></td>
+                            <td>{{privilege.funtion}}</td>
+                            <td><input type="checkbox" ng-model="status" ng-checked="privilege.status" ng-click="ui.approvel(privilege.indexNo,status)"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<div class="fab-container">-->
+    <!--<a class="fab fab-lg fab-primary" ng-show="ui.mode === 'IDEAL' || ui.mode === 'SELECTED'" ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>-->
+    <!--<a class="fab fab-lg fab-success" ng-show="ui.mode === 'NEW' || ui.mode === 'EDIT'" ng-click="ui.save();"><i class="glyphicon glyphicon-ok"></i></a>-->
+<!--</div>-->

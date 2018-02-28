@@ -35,6 +35,28 @@ angular.module("appModule")
                             errorCallback(data);
                         });
             };
+            factory.findByIndex = function (path , callback,errorCallback) {
+                var url = systemConfig.apiUrl + systemConfig.master + path;
+                $http.get(url)
+                    .success(function (data, status, headers) {
+                        callback(data);
+                    })
+                    .error(function (data, status, headers) {
+                        errorCallback(data);
+                    });
+            };
+
+            factory.updateUserApprovel = function (path , callback,errorCallback) {
+                var url = systemConfig.apiUrl + systemConfig.master + path;
+                $http.post(url)
+                    .success(function (data, status, headers) {
+                        callback(data);
+                    })
+                    .error(function (data, status, headers) {
+                        errorCallback(data);
+                    });
+            };
+
 //            factory.getOnew = function (callback) {
 //                var url = systemConfig.apiUrl + "/api/care-point/service/zmaster/customer-type";
 //

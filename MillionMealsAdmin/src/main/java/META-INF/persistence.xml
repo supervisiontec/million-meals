@@ -4,6 +4,9 @@
     <persistence-unit name="NewPersistenceUnit">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>com.sv.millionmeals.reports.model.TOrderDetails</class>
+        <class>com.sv.millionmeals.master.model.MUser</class>
+        <class>com.sv.millionmeals.master.model.MUserPrivilege</class>
+        <class>com.sv.millionmeals.master.model.MUserType</class>
         <properties>
             <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/million_meals"/>
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>

@@ -40,6 +40,10 @@ public class MasterService {
     private ProductRepository productRepository;
     @Autowired
     private BranchRepository branchRepository;
+    @Autowired
+    private UserPrivilegeRepository userPrivilegeRepository;
+    @Autowired
+    private UserTypeRepository userTypeRepository;
 
     public List<MCustomer> findAllCustomer() {
         return customerRepository.findAll();
@@ -178,5 +182,22 @@ public class MasterService {
 
     public List<MBranch> findAllBranch() {
         return branchRepository.findAll();
+    }
+
+    public List<MUserPrivilege> getAllUserPrivileges(Integer index) {
+        return userPrivilegeRepository.findBymUserType(index);
+    }
+
+    public List<MUserType> getAllUserType() {
+        return userTypeRepository.findAll();
+    }
+
+    @Transactional
+    public Boolean userApprovel(Integer index,Boolean status) {
+        MUserPrivilege userPrivilege = userPrivilegeRepository.findOne(index);
+        System.out.println(userPrivilege.toString());
+        userPrivilege.setStatus(status);
+        userPrivilegeRepository.save(userPrivilege);
+        return true;
     }
 }
