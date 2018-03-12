@@ -36,6 +36,9 @@ public class MItem implements Serializable {
     @Size(max = 45)
     @Column(name = "type")
     private String type;
+
+    @Column(name = "type2")
+    private String type2;
  
     @Column(name = "m_main_category")
     private Integer mainCategory;
@@ -111,5 +114,13 @@ public class MItem implements Serializable {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getType2() {
+        return type2;
+    }
+
+    public void setType2(String type2) {
+        this.type2 = type2;
     }
 }
