@@ -1,0 +1,121 @@
+<div class="index-content-header">
+</div>
+<div class="index-content-body ">
+    <div class="col-xs-4 background-dark">
+        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 92px);">
+            <div class="col-xs-12" style="flex: 0 0 auto; height: 95px; padding-right: 22px;">
+                <table class="table-rounded control-table">
+                    <col style="width: 35%"/>
+                    <col style="width: 65%"/>
+                    <tbody>
+                        <tr>
+                            <td><label>PRODUCT :</label></td>
+                            <td><input class="form-control" id="item"  ng-model="model.product.indexNo" 
+                                       uib-typeahead="product.indexNo as (product.item + ' - ' + product.unit) for product in model.productList |filter:$viewValue|limitTo:10"
+                                       typeahead-input-formatter="ui.productLable($model)" 
+                                       ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"
+                                       typeahead-on-select="ui.loadIngrediansbyProduct($model)"> 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Item Unit :</label></td>
+                            <td><input class="form-control" ng-model="model.product.unit" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"> </td>
+                        </tr>
+                        <tr>
+                            <td><label>Price :</label></td>
+                            <td><input class="form-control" ng-model="model.product.price" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"> </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-8 background-light">
+        <div class="row" style="display: flex; flex-flow: column;">
+            <div class="col-xs-12">
+                <div class="row col-xs-12 background-light nopadding">
+                    <div class="row col-xs-4">
+                        <input type="text" class="search-input" ng-model="model.search.name" placeholder="search">
+                    </div>
+                    <div class="row col-xs-12 nopadding">
+                        <table class="table-rounded control-table square-table">
+                            <col style="width: 17%"/>
+                            <col style="width: 35%"/>
+                            <col style="width: 17%"/>
+                            <col style="width: 17%"/>
+                            <col style="width: 17%"/>
+                            <col style="width: 8%"/>
+
+                            <tbody>
+                                <tr>
+                                    <td>CODE<input class="form-control" id="code" placeholder="Item code" ng-model="model.item.code" ng-keypress="ui.loadSelectedRowItems(model.item.code, $event)" ng-disabled="ui.mode !== 'NEW'"></td>
+                                    <td>ITEM<input class="form-control" placeholder="Item name" ng-model="model.item.item"
+                                                   uib-typeahead="rowItem.indexNo as (rowItem.code + ' - ' + rowItem.name) for rowItem in model.rowItemList |filter:$viewValue|limitTo:10"
+                                                   typeahead-input-formatter="ui.rowItemLable($model)" 
+                                                   ng-disabled="ui.mode !== 'NEW'">
+                                    </td>
+                                    <td>UNIT<input class="form-control" ng-disabled="true" id="unit" placeholder="Item unit" ng-model="model.item.unit" ng-disabled="ui.mode !== 'NEW'"
+                                                   uib-typeahead="unit.indexNo as unit.name for unit in model.unitList |filter:$viewValue|limitTo:10"
+                                                   typeahead-input-formatter="ui.unitLable($model)" >
+                                    </td>
+                                    <td>U PRICE<input class="form-control" ng-disabled="true" smart-input="decimal" placeholder="Unit price" ng-model="model.item.costPrice" ng-disabled="ui.mode !== 'NEW'"></td>
+                                    <td>QTY<input class="form-control" id="qty" placeholder="Qty" ng-model="model.item.qty " ng-keypress="ui.focusAddFunction($event)" ng-disabled="ui.mode !== 'NEW'"></td>
+                                    <td>
+                                        <a class="btn btn-primary" style="margin-top: 28px" ng-click="ui.addData()">
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                        </a> 
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <table class="table-rounded">
+                    <col style="width: 17%"/>
+                    <col style="width: 35%"/>
+                    <col style="width: 17%"/>
+                    <col style="width: 17%"/>
+                    <col style="width: 17%"/>
+                    <col style="width: 8%"/>
+                    <thead class="background-dark">
+                        <tr>
+                            <th> <label>#</label> </th>
+                            <th> <label>Item</label></th>
+                            <th> <label>Unit</label></th>
+                            <th> <label>Price</label></th>
+                            <th> <label>Qty</label></th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div class="smart-scroll-y" style="height: calc(100vh - 275px);">
+                    <table class="table-rounded">
+                        <col style="width: 17%"/>
+                        <col style="width: 35%"/>
+                        <col style="width: 17%"/>
+                        <col style="width: 17%"/>
+                        <col style="width: 17%"/>
+                        <col style="width: 10%"/>
+                        <tbody>
+                            <tr ng-repeat="ingredians in model.ingrediansList| filter:model.search.name | orderBy:'indexNo'">
+                                <td><label class="label label-default">{{ingredians.code|fixedLength:5}}</label></td>
+                                <td>{{ui.rowItemLableforTable(ingredians.item)}}</td>
+                                <td>{{ui.unitLable(ingredians.unit)}}</td>
+                                <td>{{ingredians.costPrice}}</td>
+                                <td>{{ingredians.qty}}</td>
+                                <td class="text-right" style="padding-left: 5px;">
+                                    <a class="btn btn-primary" ng-click="ui.edit(ingredians, $index)"><span class="glyphicon glyphicon-edit"></span></a>
+                                    <a class="btn btn-danger" ng-click="ui.delete(ingredians.indexNo, $index)"><span class="glyphicon glyphicon-trash"></span></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="fab-container">
+    <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'IDEAL' || ui.mode === 'SELECTED'" ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
+    <a class="fab fab-lg fab-success" ng-show="ui.mode === 'NEW' || ui.mode === 'EDIT'" ng-click="ui.save();"><i class="glyphicon glyphicon-ok"></i></a>
+</div>

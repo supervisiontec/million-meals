@@ -61,6 +61,10 @@
                     templateUrl: "app/master/item/item.html",
                     controller: "itemController"
                 })
+                .when("/ingredians", {
+                    templateUrl: "app/master/ingredians/ingredians.html",
+                    controller: "ingrediansController"
+                })
                 .when("/product", {
                     templateUrl: "app/master/product/product.html",
                     controller: "productController"
@@ -76,6 +80,10 @@
                 .when("/user-privilege", {
                     templateUrl: "app/master/user-privilege/user-privilege.html",
                     controller: "userPrivilegeController"
+                })
+                .when("/order-cancel", {
+                    templateUrl: "app/transactions/order-cancel/order-cancel.html",
+                    controller: "orderCancelController"
                 })
                 .otherwise({
                     redirectTo: "/"

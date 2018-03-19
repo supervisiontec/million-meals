@@ -3,19 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sv.millionmeals.master.repository;
+package com.sv.millionmeals.transaction.repository;
 
-import com.sv.millionmeals.master.model.MProduct;
-import java.util.List;
+import com.sv.millionmeals.transaction.model.TOrder;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
  * @author kalum
  */
-public interface ProductRepository extends JpaRepository<MProduct, Integer>{
-    
-    public MProduct findByItemAndUnit(Integer item, Integer unit);
+public interface OrderRepository extends JpaRepository<TOrder, Integer>{
 
+    public TOrder findByIndexNo(Integer orderNo);
 
 }

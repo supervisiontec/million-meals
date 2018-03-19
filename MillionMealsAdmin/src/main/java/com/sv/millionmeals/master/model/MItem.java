@@ -6,6 +6,7 @@
 package com.sv.millionmeals.master.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,7 +14,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -48,9 +48,15 @@ public class MItem implements Serializable {
     
     @Column(name = "m_category")
     private Integer category;
+    
+    @Column(name = "m_unit")
+    private Integer unit;
 
     @Column(name = "code")
     private String code;
+    
+    @Column(name = "cost_price")
+    private BigDecimal costPrice;
  
 
     public MItem() {
@@ -123,4 +129,21 @@ public class MItem implements Serializable {
     public void setType2(String type2) {
         this.type2 = type2;
     }
+
+    public Integer getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Integer unit) {
+        this.unit = unit;
+    }
+
+    public BigDecimal getCostPrice() {
+        return costPrice;
+    }
+
+    public void setCostPrice(BigDecimal costPrice) {
+        this.costPrice = costPrice;
+    }
+
 }

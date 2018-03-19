@@ -4,21 +4,17 @@
             .controller("itemController", function ($scope, factory, Notification, $timeout) {
                 //Data Models
                 $scope.model = {};
+                $scope.model.item = {};
                 //UI Models
                 $scope.ui = {};
                 //UI Mode
                 $scope.ui.mode = null;
-                //Item List
+                $scope.ui.stockType = null;
+                //Data List
                 $scope.model.itemList = [];
-                //Category List
                 $scope.model.categoryList = [];
-                //SubCategory List
                 $scope.model.subCategoryList = [];
-                //MainCategory List
                 $scope.model.mainCategoryList = [];
-
-                //Item Model
-                $scope.model.item = {};
 
                 //Focus
                 $scope.ui.focus = function () {
@@ -37,6 +33,20 @@
                     $scope.ui.focus();
                 };
                 //Edit Funtion
+                $scope.ui.setStockType = function (type) {
+                    if (type === "row_item" || type ==="finish/row_item") {
+
+                        $scope.ui.stockType = "row_item";
+
+                        $scope.ui.focus = function () {
+                            $timeout(function () {
+                                document.querySelectorAll("#unit")[0].focus();
+                            }, 10);
+                        };
+                    }else{
+                        $scope.ui.stockType = "finish_item";
+                    }
+                };
                 $scope.ui.edit = function (item, index) {
                     $scope.ui.mode = "EDIT";
                     $scope.model.item = item;
@@ -77,7 +87,6 @@
                     var path = "/get-all-item";
                     factory.findAll(path,
                             function (data) {
-                                console.log(data);
                                 $scope.model.itemList = data;
                             },
                             function (data) {
@@ -154,13 +163,38 @@
                     });
                     return name;
                 };
+                //find All ItemUnit
+                $scope.ui.findAllItemUnit = function () {
+                    var path = "/get-all-unit";
+                    factory.findAll(path,
+                            function (data) {
+                                $scope.model.unitList = data;
+                            },
+                            function (data) {
+                                console.log("Error find All Unit");
+                            }
+                    );
+                };
+                //ItemUnit label for get selected ItemUnit name
+                $scope.ui.itemUnitLable = function (indexNo) {
+                    var name;
+                    angular.forEach($scope.model.unitList, function (value) {
+                        if (value.indexNo === parseInt(indexNo)) {
+                            name = value.name;
+                            return;
+                        }
+                    });
+                    return name;
+                };
                 //Init Function
                 $scope.ui.init = function () {
                     $scope.ui.mode = "IDEAL";
+                    $scope.ui.stockType = "finish_item";
                     $scope.ui.findAll();
                     $scope.ui.findAllCategory();
                     $scope.ui.findAllMainCategory();
                     $scope.ui.findAllSubCategory();
+                    $scope.ui.findAllItemUnit();
                 };
 
                 //Call Function

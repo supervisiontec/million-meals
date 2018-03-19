@@ -94,6 +94,17 @@
                             }
                     );
                 };
+                //ItemUnit label for get selected ItemUnit name
+                $scope.ui.itemUnitLable = function (indexNo) {
+                    var name;
+                    angular.forEach($scope.model.unitList, function (value) {
+                        if (value.indexNo === parseInt(indexNo)) {
+                            name = value.name;
+                            return;
+                        }
+                    });
+                    return name;
+                };
                 //find All Item
                 $scope.ui.findAllItem = function () {
                     var path = "/get-all-item";
@@ -105,17 +116,6 @@
                                 console.log("Error find All Item");
                             }
                     );
-                };
-                //ItemUnit label for get selected ItemUnit name
-                $scope.ui.itemUnitLable = function (indexNo) {
-                    var name;
-                    angular.forEach($scope.model.unitList, function (value) {
-                        if (value.indexNo === parseInt(indexNo)) {
-                            name = value.name;
-                            return;
-                        }
-                    });
-                    return name;
                 };
                 //Item label for get selected Item name
                 $scope.ui.itemLable = function (indexNo) {

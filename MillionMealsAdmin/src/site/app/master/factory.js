@@ -45,6 +45,16 @@ angular.module("appModule")
                         errorCallback(data);
                     });
             };
+            factory.findByIndexNo = function (path ,index, callback,errorCallback) {
+                var url = systemConfig.apiUrl + systemConfig.master + path + index;
+                $http.get(url)
+                    .success(function (data, status, headers) {
+                        callback(data);
+                    })
+                    .error(function (data, status, headers) {
+                        errorCallback(data);
+                    });
+            };
 
             factory.updateUserApprovel = function (path , callback,errorCallback) {
                 var url = systemConfig.apiUrl + systemConfig.master + path;

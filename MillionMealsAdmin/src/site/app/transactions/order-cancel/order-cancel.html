@@ -1,0 +1,110 @@
+<div class="index-content-header">
+</div>
+<div class="index-content-body ">
+    <div class="col-xs-4 background-dark">
+        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 92px);">
+            <div class="col-xs-12" style="flex: 0 0 auto; height: 95px; padding-right: 22px;">
+                <table class="table-rounded control-table">
+                    <col style="width: 40%"/>
+                    <col style="width: 60%"/>
+                    <tbody>
+                        <tr>
+                            <td><label>Order No :</label></td>
+                            <td><input class="form-control" id="orderNo" ng-model="model.order.orderNo" 
+                                       ng-keypress="model.findOrderByOrderNo(model.order.orderNo, $event)"
+                                       ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Total Sub:</label></td>
+                            <td><input class="form-control" id="name" ng-model="model.order.totalSub"
+                                       ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Total Tax</label></td>
+                            <td><input class="form-control" id="name" ng-model="model.order.totalTax"
+                                       ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Total Amount</label></td>
+                            <td><input class="form-control" id="name" ng-model="model.order.totalAmount"
+                                       ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Order Type 1</label></td>
+
+                            <td><input class="form-control" id="name" ng-model="model.order.orderType1"
+                                       ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Order Type 2</label></td>
+                            <td><input class="form-control" id="name" ng-model="model.order.orderType2"
+                                       ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-8 background-light">
+        <div class="row" style="display: flex; flex-flow: column;">
+            <div class="col-xs-12">
+                <div class="row col-xs-5">
+                    <input type="text" class="search-input" ng-model="model.search.name" placeholder="search">
+                </div>
+                <table class="table-rounded">
+                    <col style="width: 15%">
+                    <col style="width: 12%">
+                    <col style="width: 12%">
+                    <col style="width: 15%">
+                    <col style="width: 10%">
+                    <col style="width: 10%">
+                    <thead class="background-dark">
+                        <tr>
+                            <th><label>Item Name</label></th>
+                            <th><label>Unit</label></th>
+                            <th><label>Qty</label></th>
+                            <th><label>Price</label></th>
+                            <th><label>Total</label></th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div class="smart-scroll-y" style="height: calc(100vh - 275px);">
+                    <table class="table-rounded">
+                        <col style="width: 15%">
+                        <col style="width: 12%">
+                        <col style="width: 12%">
+                        <col style="width: 15%">
+                        <col style="width: 10%">
+                        <col style="width: 10%">
+                        <tbody>
+                            <tr ng-repeat="orderDetails in model.order.tOrderDetailssByIndexNo| filter:orderDetails.cancelStatus === true | orderBy:'indexNo'" 
+                                ng-style="{'background-color':orderDetails.kotStatus == true ?  'brown': 'white'}" >
+                                <td>{{orderDetails.itemName}}</td>
+                                <td>{{orderDetails.unit}}</td>
+                                <td>{{orderDetails.qty}}</td>
+                                <td>{{orderDetails.price}}</td>
+                                <td>{{orderDetails.value}}</td>
+                                <td class="text-right" style="padding-left: 5px;">
+                                    <label class="label label-danger" ng-click="ui.cancel(orderDetails, $index)">CANCEL</label>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="fab-container">
+    <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'IDEAL' || ui.mode === 'SELECTED'" ng-click="ui.new();"><i
+            class="glyphicon glyphicon-plus"></i></a>
+    <a class="fab fab-lg fab-success" ng-show="ui.mode === 'NEW' || ui.mode === 'EDIT'" ng-click="ui.save();"><i
+            class="glyphicon glyphicon-ok"></i></a>
+</div>

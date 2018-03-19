@@ -6,8 +6,11 @@
 package com.sv.millionmeals.master.service;
 
 import com.sv.millionmeals.master.model.*;
+import com.sv.millionmeals.master.model.pojo.Ingredians;
 import com.sv.millionmeals.master.repository.*;
 import com.sv.millionmeals.master.system.exception.DuplicateEntityException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,6 +47,12 @@ public class MasterService {
     private UserPrivilegeRepository userPrivilegeRepository;
     @Autowired
     private UserTypeRepository userTypeRepository;
+    @Autowired
+    private IngrediansRepository ingrediansRepository;
+
+    //constants
+    public static final String TYPE_ROW_ITEM = "row_item";
+    public static final String TYPE_ROW_ITEM_AND_FINAL = "finish/row_item";
 
     public List<MCustomer> findAllCustomer() {
         return customerRepository.findAll();
@@ -89,7 +98,7 @@ public class MasterService {
     }
 
     public MSubCategory saveSubCategory(MSubCategory subCategory) {
-            return subCategoryRepository.save(subCategory);
+        return subCategoryRepository.save(subCategory);
     }
 
     public void deleteSubCategory(Integer indexNo) {
@@ -105,7 +114,7 @@ public class MasterService {
     }
 
     public MMainCategory saveMainCategory(MMainCategory mainCategory) {
-            return mainCategoryRepository.save(mainCategory);
+        return mainCategoryRepository.save(mainCategory);
     }
 
     public void deleteMainCategory(Integer indexNo) {
@@ -137,7 +146,7 @@ public class MasterService {
     }
 
     public MUnit saveUnit(MUnit unit) {
-            return unitRepository.save(unit);
+        return unitRepository.save(unit);
     }
 
     public void deleteUnit(Integer indexNo) {
@@ -153,7 +162,7 @@ public class MasterService {
     }
 
     public MItem saveItem(MItem item) {
-            return itemRepository.save(item);
+        return itemRepository.save(item);
     }
 
     public void deleteItem(Integer indexNo) {
@@ -169,7 +178,7 @@ public class MasterService {
     }
 
     public MProduct saveProduct(MProduct product) {
-            return productRepository.save(product);
+        return productRepository.save(product);
     }
 
     public void deleteProduct(Integer indexNo) {
@@ -193,11 +202,53 @@ public class MasterService {
     }
 
     @Transactional
-    public Boolean userApprovel(Integer index,Boolean status) {
+    public Boolean userApprovel(Integer index, Boolean status) {
         MUserPrivilege userPrivilege = userPrivilegeRepository.findOne(index);
         System.out.println(userPrivilege.toString());
         userPrivilege.setStatus(status);
         userPrivilegeRepository.save(userPrivilege);
         return true;
+    }
+
+    public List<MItem> getAllProductByTpeNotRowItem() {
+        return itemRepository.findByTypeNotIn(TYPE_ROW_ITEM);
+    }
+
+    public List<MItem> getAllProducByTypeRowItem() {
+        return itemRepository.findByTypeOrType(TYPE_ROW_ITEM, TYPE_ROW_ITEM_AND_FINAL);
+    }
+
+    public List<Ingredians> getAllItemObject() {
+
+        List<Ingredians> list = new ArrayList<>();
+        List<Object[]> itemObjectList = itemRepository.getAllItemObject();
+        for (int i = 0; i < itemObjectList.size(); i++) {
+            Ingredians ingredians = new Ingredians();
+            ingredians.setIndexNo((Integer) itemObjectList.get(i)[0]);
+            ingredians.setItem((String) itemObjectList.get(i)[1]);
+            ingredians.setUnit((String) itemObjectList.get(i)[2]);
+            ingredians.setPrice((BigDecimal) itemObjectList.get(i)[3]);
+            list.add(ingredians);
+        }
+        return list;
+    }
+
+    public MIngredians saveIngredians(List<MIngredians> mIngredianses) {
+
+        MIngredians ingredians = new MIngredians();
+        
+        for (int i = 0; i < mIngredianses.size(); i++) {
+            ingredians = mIngredianses.get(i);
+            MIngredians save = ingrediansRepository.save(ingredians);
+        }
+        return ingredians;
+    }
+
+    public List<MIngredians> findIngrediansByProduct(Integer indexNo) {
+        return ingrediansRepository.findByProduct(indexNo);
+    }
+
+    public void deleteIngrediansByIndexNo(Integer indexNo) {
+        ingrediansRepository.delete(indexNo);
     }
 }

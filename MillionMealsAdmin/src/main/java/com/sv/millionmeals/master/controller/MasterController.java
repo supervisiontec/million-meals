@@ -6,6 +6,7 @@
 package com.sv.millionmeals.master.controller;
 
 import com.sv.millionmeals.master.model.*;
+import com.sv.millionmeals.master.model.pojo.Ingredians;
 import com.sv.millionmeals.master.service.MasterService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,6 +126,11 @@ public class MasterController {
     public List<MItem> getAllItem(){
         return masterService.getAllItem();
     }
+    // Get All Item
+    @RequestMapping(value = "/get-all-item-object", method = RequestMethod.GET)
+    public List<Ingredians> getAllItemObject(){
+        return masterService.getAllItemObject();
+    }
     // Save Item
     @RequestMapping(value = "/save-item", method = RequestMethod.POST)
     public MItem saveItem(@RequestBody MItem item){
@@ -139,6 +145,16 @@ public class MasterController {
     @RequestMapping(value = "/get-all-product", method = RequestMethod.GET)
     public List<MProduct> getAllProduct(){
         return masterService.getAllProduct();
+    }
+    // Get All Product by Type = row_Item
+    @RequestMapping(value = "/get-all-product-by-type-rowitem", method = RequestMethod.GET)
+    public List<MItem> getAllProducByTypeRowItem(){
+        return masterService.getAllProducByTypeRowItem();
+    }
+    // Get All Product by Type != row_Item
+    @RequestMapping(value = "/get-all-product-by-type-not-row-item", method = RequestMethod.GET)
+    public List<MItem> getAllProductByTpeNotRowItem(){
+        return masterService.getAllProductByTpeNotRowItem();
     }
     // Save Product
     @RequestMapping(value = "/save-product", method = RequestMethod.POST)
@@ -171,5 +187,18 @@ public class MasterController {
     @RequestMapping(value = "/get-all-usertypes", method = RequestMethod.GET)
     public List<MUserType> getAllUserType(){
         return masterService.getAllUserType();
+    }
+    // Save Ingredians
+    @RequestMapping(value = "/save-ingredians", method = RequestMethod.POST)
+    public MIngredians saveIngredians(@RequestBody List<MIngredians> mIngredianses){
+        return masterService.saveIngredians(mIngredianses);
+    }
+    @RequestMapping(value = "/load-ingredians-by-product/{indexNo}", method = RequestMethod.GET)
+    public List<MIngredians> findIngrediansByProduct(@PathVariable Integer indexNo){
+        return masterService.findIngrediansByProduct(indexNo);
+    }
+    @RequestMapping(value = "/delete-ingredians/{indexNo}", method = RequestMethod.DELETE)
+    public void deleteIngrediansByIndexNo(@PathVariable Integer indexNo){
+         masterService.deleteIngrediansByIndexNo(indexNo);
     }
 }

@@ -5,7 +5,7 @@
  */
 package com.sv.millionmeals.master.repository;
 
-import com.sv.millionmeals.master.model.MProduct;
+import com.sv.millionmeals.master.model.MIngredians;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -13,9 +13,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author kalum
  */
-public interface ProductRepository extends JpaRepository<MProduct, Integer>{
+public interface IngrediansRepository extends JpaRepository<MIngredians, Integer>{
+
+    public List<MIngredians> findByProduct(Integer indexNo);
     
-    public MProduct findByItemAndUnit(Integer item, Integer unit);
-
-
 }
